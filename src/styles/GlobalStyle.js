@@ -68,7 +68,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
-  /* 제목 태그 기본 스타일 (선택 사항: textStyles를 사용하지 않는 경우) */
+  /* 제목 태그 기본 스타일 */
   h1, h2, h3, h4, h5, h6 {
     font-family: ${({ theme }) => theme.fonts.heading};
     font-weight: ${({ theme }) => theme.fontWeights.bold}; /* 제목 기본 굵기 */
