@@ -1,0 +1,29 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+build/      # ⬅️ 추가: 빌드 아티팩트
+coverage/   # ⬅️ 추가: 테스트 커버리지 리포트
+*.local
+.env        # ⬅️ 추가: 명시적으로 .env 파일
+.env.*.local # ⬅️ 추가: 명시적으로 모든 .env.XXX.local 파일
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
