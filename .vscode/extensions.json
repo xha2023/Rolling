@@ -1,0 +1,8 @@
+// Rolling/.vscode/extensions.json
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint", // ESLint 확장 프로그램
+    "esbenp.prettier-vscode", // Prettier 확장 프로그램
+    "styled-components.vscode-styled-components" // Styled Components 문법 하이라이팅
+  ]
+}
