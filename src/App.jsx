@@ -1,33 +1,41 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-
-//Page Component
-import AllpapersPage from './pages/AllPapersPage.jsx';
-import HomePage from './pages/HomePage.jsx';
-import MakePersonalPage from './pages/MakePersonalPage.jsx';
-import PersonalPage from './pages/PersonalPage.jsx';
-import SendPaperPage from './pages/SendPaperPage.jsx';
-import EditPage from './pages/EditPage.jsx';
-
-import Theme from './styles/Theme.js';
-import GlobalStyle from './styles/GlobalStyle.js';
+import React, { useState, useEffect } from 'react';
+import { AppContext } from './AppContext';
+import { Outlet } from 'react-router-dom';
+import Header from './components/header/Header';
 
 function App() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 767);
+      setIsTablet(width >= 768 && width <= 1199);
+      setIsDesktop(width >= 1200);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  const contextValue = {
+    isHovered,
+    setIsHovered,
+    isDesktop,
+    isTablet,
+    isMobile,
+  };
+
   return (
-    <ThemeProvider theme={Theme}>
-      <GlobalStyle />
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/list" element={<AllpapersPage />} />
-          <Route path="post" element={<MakePersonalPage />} />
-          <Route path="post{id}" element={<PersonalPage />} />
-          <Route path="/post/{id}/message" element={<SendPaperPage />} />
-          <Route path="/post{id}/edit" element={<EditPage />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <AppContext.Provider value={contextValue}>
+      <Header />
+      <Outlet />
+      {/* <Footer /> */}
+    </AppContext.Provider>
   );
 }
 
