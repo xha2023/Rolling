@@ -10,7 +10,10 @@ import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import EditPage from './pages/EditPage.jsx';
 
-import Theme from './styles/Theme.js';
+//테스트용 버튼 페이지 import
+import TestButtonPage from './components/button/testButtonPage.jsx';
+
+import Theme from './styles/theme.js';
 import GlobalStyle from './styles/GlobalStyle.js';
 
 function App() {
@@ -20,11 +23,13 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+
+          <Route path="/test-buttons" element={<TestButtonPage />} />
           <Route path="/list" element={<AllpapersPage />} />
           <Route path="post" element={<MakePersonalPage />} />
-          <Route path="post{id}" element={<PersonalPage />} />
-          <Route path="/post/{id}/message" element={<SendPaperPage />} />
-          <Route path="/post{id}/edit" element={<EditPage />} />
+          <Route path="post:id" element={<PersonalPage />} />
+          <Route path="/post/:id/message" element={<SendPaperPage />} />
+          <Route path="/post:id/edit" element={<EditPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
