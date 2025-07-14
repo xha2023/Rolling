@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTheme } from 'styled-components';
 import ColorChip from './ColorChip.jsx';
 import styled from 'styled-components';
 import chipBg1 from '../../assets/img/img_chip_bg1.svg';
@@ -13,25 +12,12 @@ const ListWrapper = styled.div`
 
 export default function ColorChipList({ type }) {
   const [selected, setSelected] = useState(null);
-  const theme = useTheme();
 
   const colorChips = [
-    {
-      id: 'yellowChip',
-      backgroundType: 'color',
-      color: theme.colors.yellow[200],
-    },
-    {
-      id: 'purpleChip',
-      backgroundType: 'color',
-      color: theme.colors.purple[200],
-    },
-    { id: 'blueChip', backgroundType: 'color', color: theme.colors.blue[200] },
-    {
-      id: 'greenChip',
-      backgroundType: 'color',
-      color: theme.colors.green[200],
-    },
+    { id: 'yellowChip', backgroundType: 'color', color: '#FFD600' },
+    { id: 'purpleChip', backgroundType: 'color', color: '#B56EFF' },
+    { id: 'blueChip', backgroundType: 'color', color: '#00C2FF' },
+    { id: 'greenChip', backgroundType: 'color', color: '#45FFB2' },
   ];
 
   const imageChips = [
