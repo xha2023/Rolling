@@ -28,8 +28,8 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      'prettier/prettier': 'error',
+      'no-unused-vars': ['wran', { varsIgnorePattern: '^[A-Z_]' }],
+      'prettier/prettier': 'wran',
     },
   },
 ]);
