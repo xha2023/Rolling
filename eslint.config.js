@@ -1,5 +1,5 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
+// import storybook from "eslint-plugin-storybook";
 
 import js from '@eslint/js';
 import globals from 'globals';
@@ -30,6 +30,13 @@ export default defineConfig([
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'prettier/prettier': 'error',
+    },
+  },
+  {
+    files: ['**/*.stories.{js,jsx}'],
+    rules: {
+      // story 파일에서는 사용하지 않는 변수(args 등)를 허용
+      'no-unused-vars': 'off',
     },
   },
 ]);

@@ -30,3 +30,5 @@ coverage/   # ⬅️ 추가: 테스트 커버리지 리포트
 
 *storybook.log
 storybook-static
+
+.eslintignore
