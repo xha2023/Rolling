@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { AppContext } from '../../AppContext';
 import logoImg from '../../assets/svg/logo.svg';
-import { Head, CreateButton } from './Header.styled';
 import { NavLink } from 'react-router-dom';
+import { HeaderWrapper, LogoLink, HeaderButton } from './Header.styled.js';
 
 const Header = () => {
   const { isDesktop, isTablet, isMobile, isHovered, setIsHovered } =
@@ -46,19 +46,12 @@ const Header = () => {
   // `;
 
   return (
-    <>
-      <Head>
-        <NavLink to="/">
-          <img src={logoImg} alt="Rolling Logo" />
-        </NavLink>
-        {isMobile ? 'mobile' : isTablet ? 'tablet' : 'pc'}
-        <CreateButton>
-          <NavLink to="/post">
-            <span>롤링 페이지 만들기</span>
-          </NavLink>
-        </CreateButton>
-      </Head>
-    </>
+    <HeaderWrapper>
+      <LogoLink href="/">
+        <img src={logoImg} alt="롤링 로고 이미지" />
+      </LogoLink>
+      <HeaderButton>롤링페이퍼 만들기</HeaderButton>
+    </HeaderWrapper>
   );
 };
 
