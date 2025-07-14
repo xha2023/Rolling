@@ -1,10 +1,13 @@
 import React from 'react';
+import MessageCard from '../components/card/Card';
+import AddCard from '../components/card/CardAdd';
 
 const PersonalPage = () => {
   return (
-    <div>
-      <h1>Personal Page</h1>
-    </div>
+    <>
+      <MessageCard></MessageCard>
+      <AddCard></AddCard>
+    </>
   );
 };
 

@@ -27,3 +27,6 @@ coverage/   # ⬅️ 추가: 테스트 커버리지 리포트
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log
+storybook-static
