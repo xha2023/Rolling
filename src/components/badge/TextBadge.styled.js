@@ -32,7 +32,7 @@ const getTextColor = (type, theme) => {
 
 export const TextBadgeWrapper = styled.span`
   display: inline-block;
-  padding: 6px 14px;
+  padding: 0px 8px;
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.white};

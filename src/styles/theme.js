@@ -135,6 +135,13 @@ const Theme = {
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
     },
+    font16Medium: {
+      fontFamily: 'body',
+      fontSize: 'md', // 16px
+      fontWeight: 'medium', // Medium (500)
+      lineHeight: 'normal',
+      letterSpacing: 'normal',
+    },
     font16Regular: {
       fontFamily: 'body',
       fontSize: 'md', // 16px

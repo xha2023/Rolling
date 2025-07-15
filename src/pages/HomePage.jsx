@@ -2,8 +2,9 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { AppContext } from '../AppContext';
-import bannerImgTop from '../assets/img/img_01.png';
-import bannerImgBottom from '../assets/img/img_02.png';
+import Button from '../components/button/Button';
+import bannerImgTop from '../assets/img/img_home01.svg';
+import bannerImgBottom from '../assets/img/img_home02.svg';
 
 export const Container = styled.div`
   width: 100%;
@@ -68,22 +69,8 @@ export const BannerSubText = styled.span`
 `;
 
 export const BannerImg = styled.img`
-  width: 640px;
-  height: 162px;
-`;
-
-export const SeeButton = styled.button`
-  background-color: #9935ff;
-  border: 1px solid #9935ff;
-  border-radius: 12px;
-  padding: 14px 60px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
+  width: 720px;
+  height: 204px;
 `;
 
 const HomePage = () => {
@@ -128,9 +115,9 @@ const HomePage = () => {
             </BannerSubText>
           </BannerTextBox>
         </BannerBox>
-        <SeeButton>
-          <NavLink to="/list">구경해보기</NavLink>
-        </SeeButton>
+        <Button as={NavLink} to="/list" variant="primary" size="large">
+          구경해보기
+        </Button>
       </Container>
     </div>
   );
