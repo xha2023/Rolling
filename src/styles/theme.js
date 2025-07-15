@@ -29,7 +29,7 @@ const Theme = {
       500: '#00A2FE',
     },
     //Green
-    green: {
+    Green: {
       100: '#E4FBDC',
       200: '#D0F5C3',
       300: '#9BE282',
