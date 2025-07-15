@@ -14,6 +14,9 @@ import Theme from './styles/Theme.js';
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
 
+//Api test
+import './api/test-console.js';
+
 function Main() {
   return (
     <ThemeProvider theme={Theme}>
