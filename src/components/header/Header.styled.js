@@ -60,3 +60,4 @@ export const CreateButton = styled.button`
   gap: '6px';
   outline: none;
   white-space: nowrap;
+`;
