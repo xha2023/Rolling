@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { AppContext } from '../../AppContext';
-import logoImg from '../../assets/svg/logo.svg';
+import logoImg from '../../assets/svg/svg_logo.svg';
 import { HeaderWrapper, HeaderInner, LogoLink } from './Header.styled';
 import { NavLink } from 'react-router-dom';
 import Button from '../button/Button';

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useTheme } from 'styled-components';
 import ColorChip from './ColorChip.jsx';
 import styled from 'styled-components';
-import chipBg1 from '../../assets/img/img_chip_bg1.svg';
-import chipBg2 from '../../assets/img/img_chip_bg2.svg';
+import chipBg1 from '../../assets/svg/svg_chip_bg1.svg';
+import chipBg2 from '../../assets/svg/svg_chip_bg2.svg';
 
 const ListWrapper = styled.div`
   display: flex;

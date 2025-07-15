@@ -29,10 +29,13 @@ export const HeaderInner = styled.div`
 export const LogoLink = styled(NavLink)`
   display: flex;
   align-items: center;
+  width: 106px;
+  height: 30px;
 
   img {
-    width: 106px;
-    height: 30px;
+    display: block;
+    max-width: 100%;
+    height: auto;
     object-fit: contain;
   }
 `;

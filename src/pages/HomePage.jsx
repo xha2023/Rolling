@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { AppContext } from '../AppContext';
 import Button from '../components/button/Button';
-import bannerImgTop from '../assets/img/img_home01.svg';
-import bannerImgBottom from '../assets/img/img_home02.svg';
+import bannerImgTop from '../assets/svg/svg_home01.svg';
+import bannerImgBottom from '../assets/svg/svg_home02.svg';
 
 export const Container = styled.div`
   width: 100%;
