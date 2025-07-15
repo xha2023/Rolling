@@ -13,19 +13,3 @@ export const ChipWrapper = styled.div`
       : props.color};
   cursor: pointer;
 `;
-
-export const CheckIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  background-color: #555555;
-  border-radius: 50%;
-
-  img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-`;
