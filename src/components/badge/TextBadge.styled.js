@@ -20,7 +20,7 @@ const getTextColor = (type, theme) => {
     case '지인':
       return '#FF8832';
     case '동료':
-      return heme.colors.purple[600];
+      return theme.colors.purple[600];
     case '가족':
       return theme.colors.green[500];
     case '친구':
@@ -32,7 +32,7 @@ const getTextColor = (type, theme) => {
 
 export const TextBadgeWrapper = styled.span`
   display: inline-block;
-  padding: 6px 14px;
+  padding: 0px 8px;
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.white};

@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+//컴포넌트 테스트 버튼 추가했습니다.
+import Test from './components/subheader/text.jsx';
 
 //Page Component
 import AllpapersPage from './pages/AllPapersPage.jsx';
@@ -10,9 +12,12 @@ import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import EditPage from './pages/EditPage.jsx';
 
-import Theme from './styles/Theme.js';
+import Theme from './styles/theme.js';
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
+
+//Api test
+import './api/test-console.js';
 
 function Main() {
   return (
@@ -27,6 +32,8 @@ function Main() {
             <Route path="post/:id" element={<PersonalPage />} />
             <Route path="/post/:id/message" element={<SendPaperPage />} />
             <Route path="/post/:id/edit" element={<EditPage />} />
+            {/* 컴포넌트 테스트 파일 추가했습니다 */}
+            <Route path="/test-topbar" element={<Test />} />
           </Route>
         </Routes>
       </Router>
