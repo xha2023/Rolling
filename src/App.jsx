@@ -31,13 +31,11 @@ function App() {
   };
 
   return (
-
     <AppContext.Provider value={contextValue}>
       <Header />
       <Outlet />
       {/* <Footer /> */}
     </AppContext.Provider>
-
   );
 }
 
