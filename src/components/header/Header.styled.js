@@ -39,3 +39,4 @@ export const LogoLink = styled(NavLink)`
     object-fit: contain;
   }
 `;
+
