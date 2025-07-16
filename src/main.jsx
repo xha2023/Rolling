@@ -12,9 +12,12 @@ import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import EditPage from './pages/EditPage.jsx';
 
-import Theme from './styles/Theme.js';
+import Theme from './styles/theme.js';
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
+
+//Api test
+import './api/test-console.js';
 
 function Main() {
   return (

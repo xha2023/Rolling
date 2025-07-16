@@ -29,7 +29,7 @@ const Theme = {
       500: '#00A2FE',
     },
     //Green
-    Green: {
+    green: {
       100: '#E4FBDC',
       200: '#D0F5C3',
       300: '#9BE282',
@@ -134,6 +134,13 @@ const Theme = {
       fontSize: 'md', // 16px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
+    },
+    font16Medium: {
+      fontFamily: 'body',
+      fontSize: 'md', // 16px
+      fontWeight: 'medium', // Medium (500)
+      lineHeight: 'normal',
+      letterSpacing: 'normal',
     },
     font16Regular: {
       fontFamily: 'body',

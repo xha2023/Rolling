@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useTheme } from 'styled-components';
 import ColorChip from './ColorChip.jsx';
 import styled from 'styled-components';
-import chipBg1 from '../../assets/img/img_chip_bg1.svg';
-import chipBg2 from '../../assets/img/img_chip_bg2.svg';
+import chipBg1 from '../../assets/svg/svg_chip_bg1.svg';
+import chipBg2 from '../../assets/svg/svg_chip_bg2.svg';
 
 const ListWrapper = styled.div`
   display: flex;
@@ -11,20 +11,24 @@ const ListWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export default function ColorChipList({ type }) {
-  const [selected, setSelected] = useState(null);
+export default function ColorChipList({
+  type = 'color',
+  selectedId,
+  onSelect,
+}) {
   const theme = useTheme();
+  const defaultColor = theme.colors.secondary[200];
 
   const colorChips = [
     {
       id: 'yellowChip',
       backgroundType: 'color',
-      color: theme.colors.yellow[200],
+      color: theme.colors.secondary[200],
     },
     {
       id: 'purpleChip',
       backgroundType: 'color',
-      color: theme.colors.purple[200],
+      color: theme.colors.primary[200],
     },
     { id: 'blueChip', backgroundType: 'color', color: theme.colors.blue[200] },
     {
@@ -55,10 +59,10 @@ export default function ColorChipList({ type }) {
         <ColorChip
           key={chip.id}
           backgroundType={chip.backgroundType}
-          color={chip.color}
+          color={chip.color ?? defaultColor}
           imageSrc={chip.imageSrc}
-          isSelected={selected === chip.id}
-          onClick={() => setSelected(chip.id)}
+          isSelected={selectedId === chip.id}
+          onClick={() => onSelect(chip.id)}
         />
       ))}
     </ListWrapper>

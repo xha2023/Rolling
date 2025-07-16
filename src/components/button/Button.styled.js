@@ -19,27 +19,39 @@ export const StyledButton = styled.button`
 
   // 사이즈별 스타일
   ${({ $size, theme }) =>
-    $size === 'small' &&
-    css`
-      padding: 0.3rem 0.8rem;
-      font-size: ${theme.fontSizes.xs};
-      height: 36px;
-    `}
-
-  ${({ $size, theme }) =>
-    $size === 'medium' &&
-    css`
-      padding: 0.5rem 1.2rem;
-      font-size: ${theme.fontSizes.sm};
-      height: 44px;
-    `}
-
-  ${({ $size, theme }) =>
     $size === 'large' &&
     css`
-      padding: 0.75rem 1.5rem;
-      font-size: ${theme.fontSizes.md};
+      padding: 1rem 2rem;
+      font: ${theme.fonts.font18Bold};
       height: 56px;
+      min-width: 192px;
+    `}
+
+  ${({ $size, theme }) =>
+    $size === 'compact' &&
+    css`
+      padding: 0.6rem 1.2rem;
+      font: ${theme.fonts.font16Regular};
+      height: 40px;
+      min-width: 122px;
+    `}
+
+  ${({ $size, theme }) =>
+    $size === 'small' &&
+    css`
+      padding: 0.4rem 1rem;
+      font: ${theme.fonts.font16Medium};
+      height: 36px;
+      min-width: 122px;
+    `}
+
+  ${({ $size, theme }) =>
+    $size === 'xsmall' &&
+    css`
+      padding: 0.3rem 0.9rem;
+      font: ${theme.fonts.font14Regular};
+      height: 28px;
+      min-width: 122px;
     `}
 
   // variant별 스타일
