@@ -11,8 +11,11 @@ const ListWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export default function ColorChipList({ type = 'color' }) {
-  const [selected, setSelected] = useState(null);
+export default function ColorChipList({
+  type = 'color',
+  selectedId,
+  onSelect,
+}) {
   const theme = useTheme();
   const defaultColor = theme.colors.secondary[200];
 
@@ -58,8 +61,8 @@ export default function ColorChipList({ type = 'color' }) {
           backgroundType={chip.backgroundType}
           color={chip.color ?? defaultColor}
           imageSrc={chip.imageSrc}
-          isSelected={selected === chip.id}
-          onClick={() => setSelected(chip.id)}
+          isSelected={selectedId === chip.id}
+          onClick={() => onSelect(chip.id)}
         />
       ))}
     </ListWrapper>
