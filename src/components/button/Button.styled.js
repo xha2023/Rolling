@@ -21,10 +21,9 @@ export const StyledButton = styled.button`
   ${({ $size, theme }) =>
     $size === 'large' &&
     css`
-      padding: 1rem 2rem;
       font: ${theme.fonts.font18Bold};
       height: 56px;
-      min-width: 192px;
+      min-width: 280px;
     `}
 
   ${({ $size, theme }) =>

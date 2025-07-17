@@ -1,5 +1,5 @@
 import { ProfileBadgeWrapper } from './ProfileBadge.styled.js';
-import profileImage from '../../assets/img/img_profile_bg1.svg';
+import profileImage from '../../assets/svg/svg_profile_bg1.svg';
 
 export default function ProfileBadge() {
   return (
