@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTheme } from 'styled-components';
 import ColorChip from './ColorChip.jsx';
 import styled from 'styled-components';
@@ -7,8 +6,10 @@ import chipBg2 from '../../assets/svg/svg_chip_bg2.svg';
 
 const ListWrapper = styled.div`
   display: flex;
-  gap: 17.6px;
-  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  max-width: 720px;
+  margin: 24px auto;
 `;
 
 export default function ColorChipList({
