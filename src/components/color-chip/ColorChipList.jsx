@@ -9,7 +9,7 @@ const ListWrapper = styled.div`
   justify-content: center;
   gap: 16px;
   max-width: 720px;
-  margin: 24px auto;
+  margin: 47px auto;
 `;
 
 export default function ColorChipList({

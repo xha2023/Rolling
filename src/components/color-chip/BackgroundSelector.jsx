@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../button/Button';
+import { ToggleGroup } from '../button/ToggleGroup.styled';
 import ColorChipList from './ColorChipList';
 
 export default function BackgroundSelector({ selectedColor, onChangeColor }) {
@@ -7,24 +8,26 @@ export default function BackgroundSelector({ selectedColor, onChangeColor }) {
 
   return (
     <div>
-      <div>
+      <ToggleGroup>
         <Button
           variant="toggle"
           isSelected={tab === 'color'}
-          size="small"
+          size="compact"
           onClick={() => setTab('color')}
+          position="left"
         >
           컬러
         </Button>
         <Button
           variant="toggle"
           isSelected={tab === 'image'}
-          size="small"
+          size="compact"
           onClick={() => setTab('image')}
+          position="right"
         >
           이미지
         </Button>
-      </div>
+      </ToggleGroup>
 
       {tab === 'color' && (
         <ColorChipList

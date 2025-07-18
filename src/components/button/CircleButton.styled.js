@@ -6,6 +6,8 @@ export const StyledButton = styled.button`
   align-items: center;
   width: 44px;
   height: 44px;
+  outline: none;
+  border: none;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.gray[500]};
   cursor: pointer;

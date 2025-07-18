@@ -4,7 +4,6 @@ export const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   border: none;
@@ -59,6 +58,7 @@ export const StyledButton = styled.button`
     css`
       background-color: ${theme.colors.primary[500]};
       color: ${theme.colors.white};
+      border-radius: 12px;
 
       &:hover {
         background-color: ${theme.colors.primary[800]};
@@ -80,6 +80,7 @@ export const StyledButton = styled.button`
       background-color: ${theme.colors.white};
       color: ${theme.colors.black};
       border: 1px solid ${theme.colors.gray[300]};
+      border-radius: 8px;
 
       &:hover {
         background-color: ${theme.colors.gray[100]};
@@ -119,32 +120,38 @@ export const StyledButton = styled.button`
       }
     `}
 
-  ${({ $variant, theme, $isSelected }) =>
+  ${({ $variant, theme, $isSelected, $position }) =>
     $variant === 'toggle' &&
     css`
       background-color: ${theme.colors.white};
       color: ${theme.colors.black};
       border: 1px solid ${theme.colors.gray[300]};
-
-      &:hover {
-        background-color: ${theme.colors.gray[100]};
-      }
-
-      &:active {
-        background-color: ${theme.colors.gray[200]};
-      }
-
-      &:disabled {
-        background-color: ${theme.colors.gray[300]};
-        color: ${theme.colors.gray[400]};
-        cursor: not-allowed;
-      }
+      border-radius: 8px;
 
       ${$isSelected &&
       css`
         color: ${theme.colors.primary[500]};
         border: 1px solid ${theme.colors.primary[500]};
         font-weight: ${({ theme }) => theme.fontWeights.bold};
+        background-color: ${theme.colors.white};
+      `}
+
+      ${!$isSelected &&
+      css`
+        background-color: ${theme.colors.gray[100]};
+        border: none;
+
+        ${$position === 'left' &&
+        css`
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        `}
+
+        ${$position === 'right' &&
+        css`
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        `}
       `}
     `}
 `;
