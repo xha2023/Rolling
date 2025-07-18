@@ -10,13 +10,17 @@ function InputText({
   inputvalue,
   onInputChange,
   disabled,
+  ...rest
 }) {
   const [error, setError] = useState(false);
 
   const handleBlur = () => setError(!inputvalue);
 
   return (
-    <div className={`${styles.wrapper} ${disabled ? styles.disabledWrap : ''}`}>
+    <div
+      className={`${styles.wrapper} ${disabled ? styles.disabledWrap : ''}`}
+      {...rest}
+    >
       <input
         className={`
           ${styles.inputContainer}
@@ -30,6 +34,7 @@ function InputText({
         onBlur={handleBlur}
         placeholder={placeholder}
         disabled={disabled}
+        {...rest}
       />
       {error && <p className={styles.errorMsg}>{errormsg}</p>}
     </div>

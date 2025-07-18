@@ -1,22 +1,16 @@
 import { useTheme } from 'styled-components';
 import ColorChip from './ColorChip.jsx';
 import styled from 'styled-components';
-import chipBg1 from '../../assets/svg/svg_chip_bg1.svg';
-import chipBg2 from '../../assets/svg/svg_chip_bg2.svg';
 
 const ListWrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 16px;
   max-width: 720px;
-  margin: 24px auto;
+  margin: 47px auto;
 `;
 
-export default function ColorChipList({
-  type = 'color',
-  selectedId,
-  onSelect,
-}) {
+export default function ColorChipList({ selectedId, onSelect }) {
   const theme = useTheme();
   const defaultColor = theme.colors.secondary[200];
 
@@ -39,29 +33,13 @@ export default function ColorChipList({
     },
   ];
 
-  const imageChips = [
-    {
-      id: 'imageChip1',
-      backgroundType: 'image',
-      imageSrc: chipBg1,
-    },
-    {
-      id: 'imageChip2',
-      backgroundType: 'image',
-      imageSrc: chipBg2,
-    },
-  ];
-
-  const chipsToShow = type === 'color' ? colorChips : imageChips;
-
   return (
     <ListWrapper>
-      {chipsToShow.map((chip) => (
+      {colorChips.map((chip) => (
         <ColorChip
           key={chip.id}
           backgroundType={chip.backgroundType}
           color={chip.color ?? defaultColor}
-          imageSrc={chip.imageSrc}
           isSelected={selectedId === chip.id}
           onClick={() => onSelect(chip.id)}
         />
