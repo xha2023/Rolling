@@ -12,6 +12,10 @@ import MakePersonalPage from './pages/MakePersonalPage.jsx';
 import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import EditPage from './pages/EditPage.jsx';
+<<<<<<< HEAD
+=======
+import Theme from './styles/Theme';
+>>>>>>> 5de2909301740f01b857302cbc0140cbb7282509
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
 
@@ -30,7 +34,7 @@ function Main() {
             <Route path="post" element={<MakePersonalPage />} />
             <Route path="post/:id" element={<PersonalPage />} />
             <Route path="/post/:id/message" element={<SendPaperPage />} />
-            <Route path="/post/:id/edit" element={<EditPage />} />
+            <Route path="/post/:id/edit" element={<PersonalPage />} />
             {/* 컴포넌트 테스트 파일 추가했습니다 */}
             <Route path="/test-topbar" element={<Test />} />
           </Route>
