@@ -21,7 +21,21 @@ import {
   ToastMessage,
 } from './Subheader.styled.js';
 
-const Subheader = ({ to, avatars, totalWriters, reactions }) => {
+// recentMessages: [
+//     {
+//       id: 24037,
+//       recipientId: 12321,
+//       sender: '프론트엔드',
+//       profileImageURL: 'https://i.pravatar.cc/100?img=2',
+//       relationship: '친구',
+//       content: 'UI 작업',
+//       font: 'Pretendard',
+//       createdAt: '2025-07-17T22:35:59.934023Z',
+
+const Subheader = ({
+  data: { name: to, messageCount: totalWriters, recentMessages, topReactions },
+  reactions: { results: reactions },
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -49,6 +63,8 @@ const Subheader = ({ to, avatars, totalWriters, reactions }) => {
     setIsShareOpen(false);
   };
 
+  const avatars = recentMessages.map((message) => message.profileImageURL);
+
   const visibleAvatars = avatars.slice(0, 3);
   const remainingCount = totalWriters - visibleAvatars.length;
 
@@ -67,8 +83,8 @@ const Subheader = ({ to, avatars, totalWriters, reactions }) => {
         <WritersText>{totalWriters}명이 작성했어요!</WritersText>
 
         <ReactionBox>
-          {reactions.slice(0, 3).map((reaction, idx) => (
-            <Reaction key={idx}>
+          {topReactions.map((reaction) => (
+            <Reaction key={reaction.id}>
               {reaction.emoji} {reaction.count}
             </Reaction>
           ))}
@@ -76,8 +92,8 @@ const Subheader = ({ to, avatars, totalWriters, reactions }) => {
 
           {isDropdownOpen && (
             <DropdownWrapper>
-              {reactions.map((reaction, idx) => (
-                <DropdownReaction key={idx}>
+              {reactions.map((reaction) => (
+                <DropdownReaction key={reaction.id}>
                   {reaction.emoji} {reaction.count}
                 </DropdownReaction>
               ))}

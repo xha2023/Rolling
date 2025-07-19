@@ -30,7 +30,7 @@ function Main() {
             <Route path="post" element={<MakePersonalPage />} />
             <Route path="post/:id" element={<PersonalPage />} />
             <Route path="/post/:id/message" element={<SendPaperPage />} />
-            <Route path="/post/:id/edit" element={<EditPage />} />
+            <Route path="/post/:id/edit" element={<PersonalPage />} />
             {/* 컴포넌트 테스트 파일 추가했습니다 */}
             <Route path="/test-topbar" element={<Test />} />
           </Route>
