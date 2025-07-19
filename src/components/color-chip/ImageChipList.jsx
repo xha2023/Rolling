@@ -15,9 +15,9 @@ export default function ImageChipList({ chipData = [], selectedId, onSelect }) {
       {chipData.map((chip) => (
         <ColorChip
           key={chip.id}
-          backgroundType="image"
-          imageSrc={chip.imageSrc}
-          isSelected={selectedId === chip.id}
+          backgroundType={chip.backgroundType}
+          value={chip.id}
+          isSelected={chip.id === selectedId}
           onClick={() => onSelect(chip.id)}
         />
       ))}

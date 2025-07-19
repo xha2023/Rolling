@@ -1,6 +1,5 @@
-import { useTheme } from 'styled-components';
-import ColorChip from './ColorChip.jsx';
 import styled from 'styled-components';
+import ColorChip from './ColorChip';
 
 const ListWrapper = styled.div`
   display: flex;
@@ -10,37 +9,15 @@ const ListWrapper = styled.div`
   margin: 47px auto;
 `;
 
-export default function ColorChipList({ selectedId, onSelect }) {
-  const theme = useTheme();
-  const defaultColor = theme.colors.secondary[200];
-
-  const colorChips = [
-    {
-      id: 'yellowChip',
-      backgroundType: 'color',
-      color: theme.colors.secondary[200],
-    },
-    {
-      id: 'purpleChip',
-      backgroundType: 'color',
-      color: theme.colors.primary[200],
-    },
-    { id: 'blueChip', backgroundType: 'color', color: theme.colors.blue[200] },
-    {
-      id: 'greenChip',
-      backgroundType: 'color',
-      color: theme.colors.green[200],
-    },
-  ];
-
+export default function ColorChipList({ chipData = [], selectedId, onSelect }) {
   return (
     <ListWrapper>
-      {colorChips.map((chip) => (
+      {chipData.map((chip) => (
         <ColorChip
           key={chip.id}
           backgroundType={chip.backgroundType}
-          color={chip.color ?? defaultColor}
-          isSelected={selectedId === chip.id}
+          value={chip.color}
+          isSelected={chip.id === selectedId}
           onClick={() => onSelect(chip.id)}
         />
       ))}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import Theme from './styles/theme.js';
 //컴포넌트 테스트 버튼 추가했습니다.
 import Test from './components/subheader/text.jsx';
 
@@ -11,7 +12,10 @@ import MakePersonalPage from './pages/MakePersonalPage.jsx';
 import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import EditPage from './pages/EditPage.jsx';
+<<<<<<< HEAD
+=======
 import Theme from './styles/Theme';
+>>>>>>> 5de2909301740f01b857302cbc0140cbb7282509
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
 

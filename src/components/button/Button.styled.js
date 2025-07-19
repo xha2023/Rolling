@@ -125,14 +125,14 @@ export const StyledButton = styled.button`
     css`
       background-color: ${theme.colors.white};
       color: ${theme.colors.black};
-      border: 1px solid ${theme.colors.gray[300]};
       border-radius: 8px;
 
       ${$isSelected &&
       css`
         color: ${theme.colors.primary[500]};
-        border: 1px solid ${theme.colors.primary[500]};
+        border: 2px solid ${theme.colors.primary[500]};
         font-weight: ${({ theme }) => theme.fontWeights.bold};
+        font-size: 16px;
         background-color: ${theme.colors.white};
       `}
 
@@ -140,6 +140,8 @@ export const StyledButton = styled.button`
       css`
         background-color: ${theme.colors.gray[100]};
         border: none;
+        font-weight: ${({ theme }) => theme.fontWeights.regular};
+        font-size: 16px;
 
         ${$position === 'left' &&
         css`
