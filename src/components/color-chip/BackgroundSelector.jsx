@@ -3,27 +3,73 @@ import Button from '../button/Button';
 import { ToggleGroup } from '../button/ToggleGroup.styled';
 import ColorChipList from './ColorChipList';
 import ImageChipList from './ImageChipList';
-import chipBg1 from '../../assets/svg/svg_chip_bg1.svg';
-import chipBg2 from '../../assets/svg/svg_chip_bg2.svg';
+import { useTheme } from 'styled-components';
 
 export default function BackgroundSelector({ selectedColor, onChangeColor }) {
+  const theme = useTheme();
   const [tab, setTab] = useState('color');
   const [imageChipData, setImageChipData] = useState([]);
 
+  const colorChipData = [
+    {
+      id: 'beige',
+      backgroundType: 'color',
+      color: theme.colors.secondary[200],
+    },
+    {
+      id: 'purple',
+      backgroundType: 'color',
+      color: theme.colors.primary[200],
+    },
+    {
+      id: 'blue',
+      backgroundType: 'color',
+      color: theme.colors.blue[200],
+    },
+    {
+      id: 'green',
+      backgroundType: 'color',
+      color: theme.colors.green[200],
+    },
+  ];
+
   useEffect(() => {
     const localData = [
-      { id: 'imageChip1', backgroundType: 'image', imageSrc: chipBg1 },
-      { id: 'imageChip2', backgroundType: 'image', imageSrc: chipBg2 },
-      { id: 'imageChip3', backgroundType: 'image', imageSrc: chipBg1 },
-      { id: 'imageChip4', backgroundType: 'image', imageSrc: chipBg2 },
+      {
+        id: 'https://picsum.photos/id/683/3840/2160',
+        backgroundType: 'image',
+      },
+      {
+        id: 'https://picsum.photos/id/284/3840/2160',
+        backgroundType: 'image',
+      },
+      {
+        id: 'https://picsum.photos/id/599/3840/2160',
+        backgroundType: 'image',
+      },
+      {
+        id: 'https://picsum.photos/id/1058/3840/2160',
+        backgroundType: 'image',
+      },
     ];
     setImageChipData(localData);
-
-    // 추후 API 연동 예시
-    // fetch('/api/backgrounds?type=image')
-    //   .then((res) => res.json())
-    //   .then((data) => setImageChipData(data));
   }, []);
+
+  useEffect(() => {
+    if (tab === 'image' && imageChipData.length > 0) {
+      onChangeColor({
+        backgroundType: 'image',
+        value: imageChipData[0].id,
+      });
+    } else if (tab === 'color') {
+      onChangeColor((prev) => {
+        if (prev?.backgroundType !== 'color') {
+          return { backgroundType: 'color', value: 'beige' };
+        }
+        return prev;
+      });
+    }
+  }, [tab, imageChipData]);
 
   return (
     <div>
@@ -49,13 +95,30 @@ export default function BackgroundSelector({ selectedColor, onChangeColor }) {
       </ToggleGroup>
 
       {tab === 'color' && (
-        <ColorChipList selectedId={selectedColor} onSelect={onChangeColor} />
+        <ColorChipList
+          chipData={colorChipData}
+          selectedId={selectedColor?.value}
+          onSelect={(id) => {
+            const selected = colorChipData.find((chip) => chip.id === id);
+            if (selected) {
+              onChangeColor({ backgroundType: 'color', value: selected.id });
+            }
+          }}
+        />
       )}
       {tab === 'image' && (
         <ImageChipList
           chipData={imageChipData}
-          selectedId={selectedColor}
-          onSelect={onChangeColor}
+          selectedId={selectedColor?.value}
+          onSelect={(id) => {
+            const selected = imageChipData.find((chip) => chip.id === id);
+            if (selected) {
+              onChangeColor({
+                backgroundType: 'image',
+                value: selected.imageSrc,
+              });
+            }
+          }}
         />
       )}
     </div>

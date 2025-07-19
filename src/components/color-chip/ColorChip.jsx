@@ -4,16 +4,15 @@ import checkIcon from '../../assets/icon/ic_check.svg';
 
 export default function ColorChip({
   backgroundType,
-  color,
-  imageSrc,
+  value,
   isSelected = false,
   onClick = () => {},
 }) {
   return (
     <ChipWrapper
-      backgroundType={backgroundType}
-      color={color}
-      imageSrc={imageSrc}
+      $backgroundType={backgroundType}
+      $color={backgroundType === 'color' ? value : undefined}
+      $imageSrc={backgroundType === 'image' ? value : undefined}
       onClick={onClick}
     >
       {isSelected && <CircleButton icon={checkIcon} />}
