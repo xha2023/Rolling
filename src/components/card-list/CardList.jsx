@@ -2,19 +2,29 @@ import MessageCard from '../card/MessageCard';
 import { CardlistContainer } from './CardList.styled';
 import AddCard from '../card/CardAdd';
 
-export default function CardList({ messages }) {
+export default function CardList({ messages, isEditing, onDeleteMessage }) {
   return (
     <CardlistContainer>
       <AddCard />
       {messages.map(
-        ({ id, profileImageURL, relationship, sender, content, createdAt }) => (
+        ({
+          id: messageId,
+          profileImageURL,
+          relationship,
+          sender,
+          content,
+          createdAt,
+        }) => (
           <MessageCard
-            key={id}
+            messageId={messageId}
+            key={messageId}
             profileImage={profileImageURL}
             name={sender}
             status={relationship}
             message={content}
             date={createdAt}
+            isEditing={isEditing}
+            onDelete={onDeleteMessage}
           />
         ),
       )}

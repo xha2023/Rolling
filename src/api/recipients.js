@@ -39,7 +39,7 @@ export const getRecipient = (id) => {
  * @param {number|string} id - 삭제할 대상의 ID
  * @returns {Promise<null>} - 성공 시 내용 없음
  */
-export const deleteRecipient = (team, id) => {
+export const deleteRecipient = (id) => {
   const endpoint = `/recipients/${id}/`;
   return fetchApi(endpoint, {
     method: 'DELETE',

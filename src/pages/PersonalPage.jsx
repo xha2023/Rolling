@@ -1,6 +1,11 @@
-import React from 'react';
-import CardList from '../components/cardlist/CardList';
+import { useState } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import CardList from '../components/card-list/CardList';
 import Subheader from '../components/subheader/subheader';
+import Button from '../components/button/Button';
+import useMutation from '../hooks/useMutation';
+import { deleteRecipient } from '../api/recipients';
+import { deleteMessage } from '../api/messages';
 
 const mockData = {
   id: 12321,
@@ -99,13 +104,49 @@ const mockReactions = {
   ],
 };
 
-const messages = mockData.recentMessages;
+const initialMessages = mockData.recentMessages;
 
 const PersonalPage = () => {
+  const location = useLocation();
+  const { id: recipientId } = useParams();
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState(initialMessages);
+  // const { mutate, loading } = useMutation(deleteRecipient);
+  // const { mutate, loading } = ueMutation(deleteMessage);
+
+  //현재 url이 '/edit'으로 끝나는지 확인
+  const isEditing = location.pathname.endsWith('/edit');
+
+  const handleDeletePaper = async () => {
+    try {
+      await deleteRecipient(recipientId);
+      navigate('/list');
+    } catch (e) {
+      console.error('페이지 삭제 실패', e);
+    }
+  };
+
+  const handleDeleteMessage = async (messageId) => {
+    try {
+      await deleteMessage(messageId);
+      const newMessages = messages.filter(
+        (message) => message.id !== messageId,
+      );
+      setMessages(newMessages);
+    } catch (e) {
+      console.error('메세지 삭제 실패', e);
+    }
+  };
+
   return (
     <>
       <Subheader data={mockData} reactions={mockReactions} />
-      <CardList messages={messages}></CardList>
+      {isEditing && <Button onClick={handleDeletePaper} />}
+      <CardList
+        messages={messages}
+        isEditing={isEditing}
+        onDeleteMessage={handleDeleteMessage}
+      ></CardList>
     </>
   );
 };
