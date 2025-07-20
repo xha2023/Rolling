@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'reaact';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export function useAsync(asyncFunction, immediate = true) {
   const [data, setData] = useState(null);
