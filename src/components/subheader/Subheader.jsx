@@ -34,7 +34,7 @@ import {
 
 const Subheader = ({
   data: { name: to, messageCount: totalWriters, recentMessages, topReactions },
-  reactions: { results: reactions },
+  reactions,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);

@@ -41,7 +41,7 @@ const MessageCard = ({
           <FromText>
             From. <NameText>{name}</NameText>
           </FromText>
-          <StatusBadge>{status}</StatusBadge>
+          <StatusBadge status={status}>{status}</StatusBadge>
         </HeaderInfo>
         {isEditing && (
           <Button onClick={() => onDelete(messageId)} variant="icon">

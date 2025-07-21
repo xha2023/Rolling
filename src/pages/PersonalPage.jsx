@@ -6,7 +6,11 @@ import Button from '../components/button/Button';
 import useMutation from '../hooks/useMutation';
 
 //api
-import { deleteRecipient, getRecipient } from '../api/recipients';
+import {
+  deleteRecipient,
+  getRecipient,
+  getReactionsForRecipient,
+} from '../api/recipients';
 import { deleteMessage, getMessageList } from '../api/messages';
 
 //hook
@@ -71,52 +75,51 @@ import { useFetch } from '../hooks/useFetch';
 //   ],
 // };
 
-const mockReactions = {
-  count: 6,
-  next: null,
-  previous: null,
-  results: [
-    {
-      id: 12863,
-      emoji: '🤓',
-      count: 13,
-    },
-    {
-      id: 12864,
-      emoji: '🥲',
-      count: 4,
-    },
-    {
-      id: 12861,
-      emoji: '😍',
-      count: 4,
-    },
-    {
-      id: 12865,
-      emoji: '🫡',
-      count: 2,
-    },
-    {
-      id: 12862,
-      emoji: '😃',
-      count: 2,
-    },
-    {
-      id: 12860,
-      emoji: 'string',
-      count: 1,
-    },
-  ],
-};
-
-// const initialMessages = mockData.recentMessages;
+// const mockReactions = {
+//   count: 6,
+//   next: null,
+//   previous: null,
+//   results: [
+//     {
+//       id: 12863,
+//       emoji: '🤓',
+//       count: 13,
+//     },
+//     {
+//       id: 12864,
+//       emoji: '🥲',
+//       count: 4,
+//     },
+//     {
+//       id: 12861,
+//       emoji: '😍',
+//       count: 4,
+//     },
+//     {
+//       id: 12865,
+//       emoji: '🫡',
+//       count: 2,
+//     },
+//     {
+//       id: 12862,
+//       emoji: '😃',
+//       count: 2,
+//     },
+//     {
+//       id: 12860,
+//       emoji: 'string',
+//       count: 1,
+//     },
+//   ],
+// };
 
 const PersonalPage = () => {
   const { id: recipientId } = useParams();
   const [recipientInfo, setRecipientInfo] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [reactions, setReactions] = useState([]);
 
-  //get Recipient Info and Messages
+  //get Recipient Info, Messages, reactions
   useEffect(() => {
     if (!recipientId) return;
     const fetchRecipientInfo = async () => {
@@ -143,18 +146,20 @@ const PersonalPage = () => {
     fetchMessages();
   }, [recipientId]);
 
+  useEffect(() => {
+    if (!recipientId) return;
+    const fetchReactions = async () => {
+      try {
+        const result = await getReactionsForRecipient(recipientId);
+        setReactions(result?.results || []);
+      } catch (e) {
+        console.error('reactions 불러오기 실패', e);
+      }
+    };
+    fetchReactions();
+  }, [recipientId]);
+
   const location = useLocation();
-
-  // const { mutate, loading } = useMutation(deleteRecipient);
-  // const { mutate, loading } = ueMutation(deleteMessage);
-
-  // const {
-  //   data: recipientInfo,
-  //   loading: recipientInfoLoading,
-  //   error: recipientInfoError,
-  //   refetch: recipientInfoRefetch,
-  // } = useFetch(getRecipient);
-  // if (!recipientInfo) return null;
 
   //현재 url이 '/edit'으로 끝나는지 확인
   const isEditing = location.pathname.endsWith('/edit');
@@ -183,7 +188,7 @@ const PersonalPage = () => {
   return (
     <>
       {recipientInfo && (
-        <Subheader data={recipientInfo} reactions={mockReactions} />
+        <Subheader data={recipientInfo} reactions={reactions} />
       )}
       {isEditing && <Button onClick={handleDeletePaper} />}
       <CardList

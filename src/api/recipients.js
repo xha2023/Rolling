@@ -51,8 +51,8 @@ export const deleteRecipient = (id) => {
  * @param {number|string} id - 대상의 ID
  * @returns {Promise<object>} - 리액션 목록 정보
  */
-export const getReactionsForRecipient = (id) => {
-  const endpoint = `/${team}/recipients/${id}/reactions/`;
+export const getReactionsForRecipient = (id, limit = 8, sort = 'count') => {
+  const endpoint = `/recipients/${id}/reactions/`;
   return fetchApi(endpoint);
 };
 

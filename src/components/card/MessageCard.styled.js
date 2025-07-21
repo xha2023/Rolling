@@ -52,16 +52,49 @@ export const NameText = styled.span`
   color: #000000;
 `;
 
+const getBadgeColor = (status) => {
+  switch (status) {
+    case '동료':
+      return '#4a90e2';
+    case '친구':
+      return '#50e3c2';
+    case '가족':
+      return '#f5a623';
+    case '지인':
+      return '#9013fe';
+    default:
+      return '#999999';
+  }
+};
+
+const getBadgeTextColor = (status) => {
+  switch (status) {
+    case '동료':
+      return '#ffffff';
+    case '친구':
+      return '#ffffff';
+    case '가족':
+      return '#ffffff';
+    case '지인':
+      return '#ffffff';
+    default:
+      return '#000000';
+  }
+};
+
 export const StatusBadge = styled.div`
   display: inline-block;
-  background: #f8f0ff;
-  color: #9935ff;
+  background: ${(props) => {
+    console.log('StatusBadge가 받은 props:', props); // For debugging
+    return getBadgeColor(props.status);
+  }};
+  color: ${(props) => getBadgeTextColor(props.status)};
+
   padding: 0px 8px;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  /* margin-top: 6px; */
 `;
 
 export const MessageContent = styled.div`
