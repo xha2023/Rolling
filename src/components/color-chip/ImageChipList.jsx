@@ -9,14 +9,14 @@ const ListWrapper = styled.div`
   margin: 47px auto;
 `;
 
-export default function ColorChipList({ chipData = [], selectedId, onSelect }) {
+export default function ImageChipList({ chipData = [], selectedId, onSelect }) {
   return (
     <ListWrapper>
       {chipData.map((chip) => (
         <ColorChip
           key={chip.id}
           backgroundType={chip.backgroundType}
-          value={chip.color}
+          value={chip.id}
           isSelected={chip.id === selectedId}
           onClick={() => onSelect(chip.id)}
         />

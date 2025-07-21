@@ -9,7 +9,7 @@ const Button = ({
   variant = 'primary',
   disabled = false,
   isSelected = false,
-  size = 'medium',
+  size = 'compact',
   type = 'button',
   ...rest
 }) => {
@@ -35,7 +35,7 @@ Button.propTypes = {
   variant: PropTypes.oneOf(['primary', 'outlined', 'icon', 'arrow', 'toggle']),
   disabled: PropTypes.bool,
   isSelected: PropTypes.bool,
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  size: PropTypes.oneOf(['xsmall', 'small', 'compact', 'large']),
   type: PropTypes.string,
 };
 

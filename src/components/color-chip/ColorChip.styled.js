@@ -7,9 +7,7 @@ export const ChipWrapper = styled.div`
   width: 168px;
   height: 168px;
   border-radius: 16px;
-  background: ${(props) =>
-    props.backgroundType === 'image'
-      ? `url(${props.imageSrc}) center/cover`
-      : props.color};
+  background: ${({ $backgroundType, $imageSrc, $color }) =>
+    $backgroundType === 'image' ? `url(${$imageSrc}) center/cover` : $color};
   cursor: pointer;
 `;
