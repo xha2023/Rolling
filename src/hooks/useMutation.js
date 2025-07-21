@@ -25,7 +25,7 @@ import { createRecipient } from '../api/recipients';
 import useMutation from '../hooks/useMutation';
 
 function CreateRecipientForm() {
-  const { mutate, isLoading } = useMutation(createRecipient);
+  const { mutate, loading } = useMutation(createRecipient);
 
   const handleSubmit = async () => {
     await mutate({ name: '새로운 대상', backgroundColor: 'blue' });
