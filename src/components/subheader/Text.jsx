@@ -5,7 +5,7 @@ import img_avatar_01 from '../../assets/img/img_avatar_01.svg';
 import img_avatar_02 from '../../assets/img/img_avatar_02.svg';
 import img_avatar_03 from '../../assets/img/img_avatar_03.svg';
 import { ThemeProvider } from 'styled-components';
-import Theme from '../../styles/Theme';
+import Theme from '../../styles/theme';
 import GlobalStyle from '../../styles/GlobalStyle';
 
 const Test = () => {
