@@ -2,13 +2,23 @@ import styled from 'styled-components';
 
 export const EmojiBadgeWrapper = styled.button`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  justify-content: center;
+  width: 66px;
+  gap: 6px;
+  padding: 6px 0;
   border-radius: 999px;
-  font-size: 16px;
-  gap: 2px;
-  background-color: ${({ theme }) => rgba(theme.colors.black, 0.5)};
-  border: 1px solid ${({ theme }) => theme.colors.gray[300]};
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
   cursor: pointer;
+`;
+
+export const Emoji = styled.span`
+  font-size: 18px;
+`;
+
+export const Count = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.white};
 `;

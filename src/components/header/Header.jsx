@@ -6,8 +6,6 @@ import { NavLink } from 'react-router-dom';
 import Button from '../button/Button';
 
 export default function Header() {
-  const { isMobile } = useContext(AppContext);
-
   return (
     <HeaderWrapper>
       <HeaderInner>
