@@ -52,8 +52,8 @@ export const NameText = styled.span`
   color: #000000;
 `;
 
-const getBadgeColor = (status) => {
-  switch (status) {
+const getBadgeColor = ($status) => {
+  switch ($status) {
     case '동료':
       return '#4a90e2';
     case '친구':
@@ -67,8 +67,8 @@ const getBadgeColor = (status) => {
   }
 };
 
-const getBadgeTextColor = (status) => {
-  switch (status) {
+const getBadgeTextColor = ($status) => {
+  switch ($status) {
     case '동료':
       return '#ffffff';
     case '친구':
@@ -85,10 +85,9 @@ const getBadgeTextColor = (status) => {
 export const StatusBadge = styled.div`
   display: inline-block;
   background: ${(props) => {
-    console.log('StatusBadge가 받은 props:', props); // For debugging
-    return getBadgeColor(props.status);
+    return getBadgeColor(props.$status);
   }};
-  color: ${(props) => getBadgeTextColor(props.status)};
+  color: ${(props) => getBadgeTextColor(props.$status)};
 
   padding: 0px 8px;
   border-radius: 4px;

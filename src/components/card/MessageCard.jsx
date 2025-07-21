@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../button/Button.jsx';
 import defaultProfile from '../../assets/svg/default_profile.svg';
+import { formatDate } from '../../utils/FormateDate.js';
 import {
   CardContainer,
   Header,
@@ -27,6 +28,7 @@ const MessageCard = ({
   isEditing,
   onDelete,
 }) => {
+  const formattedDate = formatDate(date);
   return (
     <CardContainer>
       <Header>
@@ -41,7 +43,7 @@ const MessageCard = ({
           <FromText>
             From. <NameText>{name}</NameText>
           </FromText>
-          <StatusBadge status={status}>{status}</StatusBadge>
+          <StatusBadge $status={status}>{status}</StatusBadge>
         </HeaderInfo>
         {isEditing && (
           <Button onClick={() => onDelete(messageId)} variant="icon">
@@ -54,7 +56,7 @@ const MessageCard = ({
         <MessageText>{message}</MessageText>
       </MessageContent>
 
-      <DateText>{date}</DateText>
+      <DateText>{formattedDate}</DateText>
     </CardContainer>
   );
 };
