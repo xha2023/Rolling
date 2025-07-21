@@ -11,8 +11,7 @@ import HomePage from './pages/HomePage.jsx';
 import MakePersonalPage from './pages/MakePersonalPage.jsx';
 import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
-
-import Theme from './styles/theme.js';
+import EditPage from './pages/EditPage.jsx';
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
 
