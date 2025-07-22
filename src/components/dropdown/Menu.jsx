@@ -18,9 +18,9 @@ const Menu = ({ triggerText, items }) => {
 
   return (
     <S.Wrapper ref={dropdownRef}>
-      <MockButton onClick={toggle} aria-expanded={isOpen}>
+      <div onClick={toggle} aria-expanded={isOpen}>
         {triggerText}
-      </MockButton>
+      </div>
 
       {isOpen && (
         <S.List width="140px">

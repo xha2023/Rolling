@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ProfileBadgeList from '../badge-profile/ProfileBadgeList';
 import EmojiBadge from '../badge-emoji/EmojiBadge';
+import Menu from '../dropdown/Menu';
 import Button from '../button/Button';
 import Picker from '@emoji-mart/react';
 import shareIcon from '../../assets/icon/ic_share.svg';
@@ -94,17 +95,17 @@ const DropdownWrapper = styled.div`
   position: absolute;
   top: 40px;
   left: 50%;
-  transform: translateX(-50%); // ✅ 중앙 정렬
-  width: 312px; // ✅ 고정된 크기 설정
+  transform: translateX(-50%);
+  width: 312px;
   height: 134px;
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid #ddd;
+  border: 1px solid ${({ theme }) => theme.colors.gray[300]};
   border-radius: 8px;
   padding: 12px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); // ✅ 4열 고정
-  grid-template-rows: repeat(2, auto); // ✅ 2행 고정
-  gap: 4px; // ✅ 이모지 간격 조정
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 4px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
   justify-items: center;
@@ -172,6 +173,17 @@ export default function Subheader({ data }) {
 
   const displayReactions = sorted.slice(0, 3);
   const dropdownReactions = sorted.slice(0, 8);
+
+  const shareMenuItems = [
+    { label: '카카오톡 공유', handler: () => alert('카카오 공유!') },
+    {
+      label: 'URL 공유',
+      handler: () => {
+        navigator.clipboard.writeText(window.location.href);
+        alert('URL이 복사되었습니다.');
+      },
+    },
+  ];
 
   return (
     <SubHeaderWrapper>
@@ -256,9 +268,14 @@ export default function Subheader({ data }) {
 
             <Divider />
 
-            <ShareButton variant="outlined" size="small">
-              <img src={shareIcon} alt="공유 아이콘" />
-            </ShareButton>
+            <Menu
+              triggerText={
+                <ShareButton variant="outlined" size="small">
+                  <img src={shareIcon} alt="공유" />
+                </ShareButton>
+              }
+              items={shareMenuItems}
+            />
           </ButtonGroup>
         </RightGroup>
       </SubHeaderInner>
