@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
-import Subheader from '../components/subheader/subheader';
+import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
 import styled from 'styled-components';
 

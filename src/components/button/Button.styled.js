@@ -20,7 +20,8 @@ export const StyledButton = styled.button`
   ${({ $size, theme }) =>
     $size === 'large' &&
     css`
-      font: ${theme.fonts.font18Bold};
+      font-size: ${({ theme }) => theme.fontSizes.lg};
+      font-weight: ${({ theme }) => theme.fontWeights.bold};
       height: 56px;
       min-width: 280px;
     `}
@@ -50,6 +51,24 @@ export const StyledButton = styled.button`
       font: ${theme.fonts.font14Regular};
       height: 28px;
       min-width: 122px;
+    `}
+
+    ${({ $size, theme }) =>
+    $size === 'home_tablet' &&
+    css`
+      font-size: ${({ theme }) => theme.fontSizes.lg};
+      font-weight: ${({ theme }) => theme.fontWeights.bold};
+      height: 56px;
+      min-width: 720px;
+    `}
+
+    ${({ $size, theme }) =>
+    $size === 'home_mobile' &&
+    css`
+      font-size: ${({ theme }) => theme.fontSizes.lg};
+      font-weight: ${({ theme }) => theme.fontWeights.bold};
+      height: 56px;
+      min-width: 320px;
     `}
 
   // variant별 스타일

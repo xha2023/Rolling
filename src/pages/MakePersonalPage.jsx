@@ -85,7 +85,7 @@ const MakePersonalPage = () => {
         size="large"
         onClick={handleCreate}
         disabled={!recipientName.trim()}
-        style={{ width: '100%', marginTop: '20px', fontSize: '18px' }}
+        style={{ width: '100%', marginTop: '20px' }}
       >
         생성하기
       </Button>

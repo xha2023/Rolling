@@ -1,10 +1,10 @@
-import { EmojiBadgeWrapper } from './EmojiBadge.styled.js';
+import { EmojiBadgeWrapper, Emoji, Count } from './EmojiBadge.styled.js';
 
 export default function EmojiBadge({ emoji, count, onClick }) {
   return (
     <EmojiBadgeWrapper onClick={onClick}>
-      <span>{emoji}</span>
-      <span>{count}</span>
+      <Emoji>{emoji}</Emoji>
+      <Count>{count}</Count>
     </EmojiBadgeWrapper>
   );
 }
