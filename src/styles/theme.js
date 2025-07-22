@@ -89,7 +89,7 @@ const Theme = {
     },
     font24Bold: {
       fontFamily: 'body',
-      fontSize: '1.5rem', // 24px
+      fontSize: '2xl', // 24px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
       letterSpacing: '-0.01em',
@@ -117,7 +117,7 @@ const Theme = {
     },
     font18Bold: {
       fontFamily: 'body',
-      fontSize: '18px', // 18px
+      fontSize: 'lg', // 18px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
       letterSpacing: '-0.01em',

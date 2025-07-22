@@ -51,7 +51,7 @@ const MessageCard = ({
       </Header>
 
       <MessageContent>
-        <MessageText>{message}</MessageText>
+        <MessageText dangerouslySetInnerHTML={{ __html: message }} />
       </MessageContent>
 
       <DateText>{date}</DateText>

@@ -1,5 +1,5 @@
 //library
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -12,7 +12,6 @@ import Editor from '../components/editor/Editor';
 
 //api
 import { createMessage } from '../api/messages';
-import { ProfileImage } from '../components/card/MessageCard.styled';
 // import { getProfileImages } from '../api/images'; // ✅ 프로필 이미지 목록
 
 //data
@@ -112,7 +111,12 @@ export default function SendPaperPage() {
 
       <Label>폰트 선택</Label>
       <Select options={fontOptions} value={font} onChange={setFont} />
-      <Button onClick={handleSubmit} disabled={isEmpty}>
+      <Button
+        variant="primary"
+        size="large"
+        onClick={handleSubmit}
+        style={{ width: '100%', marginTop: '20px' }}
+      >
         생성하기
       </Button>
     </Container>
@@ -120,7 +124,7 @@ export default function SendPaperPage() {
 }
 
 const Container = styled.div`
-  max-width: 600px;
+  max-width: 720px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -129,4 +133,5 @@ const Container = styled.div`
 
 const Label = styled.label`
   ${({ theme }) => theme.textStyles.font16Bold};
+  font-family: ${({ theme }) => theme.fonts.body};
 `;
