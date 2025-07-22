@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileBadgeList from '../badge-profile/ProfileBadgeList';
 import EmojiBadge from '../badge-emoji/EmojiBadge';
 import Button from '../button/Button';
 import Picker from '@emoji-mart/react';
+import { getReactionsForRecipient, createReaction } from '../../api/recipients';
 import shareIcon from '../../assets/icon/ic_share.svg';
 import emojiIcon from '../../assets/icon/ic_emoji.svg';
 import arrowIcon from '../../assets/icon/ic_arrow_down.svg';
@@ -24,6 +25,17 @@ const SubHeaderInner = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   padding: 0 24px;
+
+  @media (max-width: 1248px) {
+    padding: 0 24px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    padding: 16px 24px;
+    gap: 16px;
+  }
 `;
 
 const NameText = styled.span`
@@ -35,6 +47,12 @@ const RightGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
 `;
 
 const ProfileList = styled.div`
@@ -135,43 +153,72 @@ const ShareButton = styled(Button)`
 `;
 
 export default function Subheader({ data }) {
-  const { name, recentMessages } = data;
+  const { id, name, recentMessages, topReactions = [] } = data;
 
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [reactions, setReactions] = useState(topReactions);
+  const [loading, setLoading] = useState(false);
 
-  const [reactions, setReactions] = useState([]);
-  const [lastSelectedEmoji, setLastSelectedEmoji] = useState(null);
+  // 컴포넌트 마운트 시 반응 데이터 로드
+  useEffect(() => {
+    loadReactions();
+  }, [id]);
 
-  const handleEmojiSelect = (emoji) => {
-    const newEmoji = emoji.native;
-    setLastSelectedEmoji(newEmoji);
-
-    setReactions((prev) => {
-      const now = Date.now();
-      const exists = prev.find((r) => r.emoji === newEmoji);
-
-      if (exists) {
-        return prev.map((r) =>
-          r.emoji === newEmoji
-            ? { ...r, count: r.count + 1, lastUpdated: now }
-            : r,
-        );
-      } else {
-        return [...prev, { emoji: newEmoji, count: 1, lastUpdated: now }];
+  const loadReactions = async () => {
+    try {
+      const reactionsData = await getReactionsForRecipient(id);
+      if (reactionsData.results) {
+        setReactions(reactionsData.results);
       }
-    });
-
-    setIsPickerVisible(false);
+    } catch (error) {
+      console.error('반응 로드 실패:', error);
+      // 실패 시 기본 데이터 사용
+      setReactions(topReactions);
+    }
   };
 
-  const sorted = [...reactions].sort((a, b) => {
-    if (b.count !== a.count) return b.count - a.count;
-    return a.lastUpdated - b.lastUpdated;
-  });
+  const handleEmojiSelect = async (emoji) => {
+    const newEmoji = emoji.native;
+    setLoading(true);
 
-  const displayReactions = sorted.slice(0, 3);
-  const dropdownReactions = sorted.slice(0, 8);
+    try {
+      // API로 반응 추가
+      await createReaction(id, { 
+        emoji: newEmoji, 
+        type: 'increase' 
+      });
+      
+      // 로컬 상태 업데이트
+      setReactions((prev) => {
+        const exists = prev.find((r) => r.emoji === newEmoji);
+        if (exists) {
+          return prev.map((r) =>
+            r.emoji === newEmoji
+              ? { ...r, count: r.count + 1 }
+              : r,
+          );
+        } else {
+          return [...prev, { 
+            emoji: newEmoji, 
+            count: 1, 
+            id: Date.now() // 임시 ID
+          }];
+        }
+      });
+      
+      setIsPickerVisible(false);
+    } catch (error) {
+      console.error('반응 추가 실패:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 반응을 개수 많은 순으로 정렬
+  const sortedReactions = [...reactions].sort((a, b) => b.count - a.count);
+  const displayReactions = sortedReactions.slice(0, 3);
+  const dropdownReactions = sortedReactions.slice(0, 8);
 
   return (
     <SubHeaderWrapper>
@@ -230,9 +277,10 @@ export default function Subheader({ data }) {
               variant="outlined"
               size="small"
               onClick={() => setIsPickerVisible((prev) => !prev)}
+              disabled={loading}
             >
               <img src={emojiIcon} alt="이모지 아이콘" />
-              <span>추가</span>
+              <span>{loading ? '추가중...' : '추가'}</span>
             </EmojiButton>
 
             {isPickerVisible && (

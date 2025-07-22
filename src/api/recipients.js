@@ -52,7 +52,7 @@ export const deleteRecipient = (id) => {
  * @returns {Promise<object>} - 리액션 목록 정보
  */
 export const getReactionsForRecipient = (id) => {
-  const endpoint = `/${team}/recipients/${id}/reactions/`;
+  const endpoint = `/recipients/${id}/reactions/`;
   return fetchApi(endpoint);
 };
 

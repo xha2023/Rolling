@@ -26,9 +26,25 @@ const MessageCard = ({
   date = '2025.07.12',
   isEditing,
   onDelete,
+  onClick,
 }) => {
+  const formatDate = (dateString) => {
+    const dateObj = new Date(dateString);
+    return dateObj.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).replace(/\. /g, '.').replace(/\.$/, '');
+  };
+
+  const handleCardClick = () => {
+    if (!isEditing && onClick) {
+      onClick();
+    }
+  };
+
   return (
-    <CardContainer>
+    <CardContainer onClick={handleCardClick} isClickable={!isEditing}>
       <Header>
         <ProfileImage>
           {profileImage ? (
@@ -44,7 +60,10 @@ const MessageCard = ({
           <StatusBadge>{status}</StatusBadge>
         </HeaderInfo>
         {isEditing && (
-          <Button onClick={() => onDelete(messageId)} variant="icon">
+          <Button onClick={(e) => {
+            e.stopPropagation();
+            onDelete(messageId);
+          }} variant="icon">
             🗑️
           </Button>
         )}
@@ -54,7 +73,7 @@ const MessageCard = ({
         <MessageText>{message}</MessageText>
       </MessageContent>
 
-      <DateText>{date}</DateText>
+      <DateText>{formatDate(date)}</DateText>
     </CardContainer>
   );
 };

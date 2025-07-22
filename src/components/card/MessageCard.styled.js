@@ -4,9 +4,28 @@ export const CardContainer = styled.div`
   width: 384px;
   height: 280px;
   padding: 40px;
-  /* background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%); */
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  cursor: ${props => props.isClickable ? 'pointer' : 'default'};
+  transition: all 0.2s ease;
+
+  ${props => props.isClickable && `
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    }
+  `}
+
+  @media (max-width: 1248px) {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    min-height: 280px;
+    padding: 24px;
+  }
 `;
 
 export const Header = styled.div`
@@ -27,11 +46,18 @@ export const ProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 
   img {
     width: 100%;
     height: 100%;
-    /* object-fit: cover; */
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
   }
 `;
 
@@ -72,12 +98,20 @@ export const MessageContent = styled.div`
 export const MessageText = styled.p`
   width: 100%;
   height: 106px;
-  overflow-y: auto; /* 내용이 넘치면 세로 스크롤 */
+  overflow-y: auto;
   overflow-x: hidden;
   font-size: 18px;
   line-height: 28px;
   color: #4a4a4a;
   font-weight: 400;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    line-height: 24px;
+    height: auto;
+    min-height: 80px;
+  }
 `;
 
 export const DateText = styled.div`

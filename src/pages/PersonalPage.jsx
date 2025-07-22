@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
 import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
+import CardModal from '../components/modal/CardModal';
 import useMutation from '../hooks/useMutation';
-import { deleteRecipient } from '../api/recipients';
-import { deleteMessage } from '../api/messages';
+import { deleteRecipient, getRecipient } from '../api/recipients';
+import { deleteMessage, getMessageList } from '../api/messages';
 
 export const mockData = {
   id: 12321,
@@ -114,18 +115,89 @@ const mockReactions = {
   ],
 };
 
-const initialMessages = mockData.recentMessages;
-
 const PersonalPage = () => {
   const location = useLocation();
   const { id: recipientId } = useParams();
   const navigate = useNavigate();
-  const [messages, setMessages] = useState(initialMessages);
-  // const { mutate, loading } = useMutation(deleteRecipient);
-  // const { mutate, loading } = ueMutation(deleteMessage);
-
+  
+  // 상태 관리
+  const [recipientData, setRecipientData] = useState(mockData);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(0);
+  const [selectedCard, setSelectedCard] = useState(null);
+  
+  const limit = 8; // 한 번에 불러올 메시지 수
+  
   //현재 url이 '/edit'으로 끝나는지 확인
   const isEditing = location.pathname.endsWith('/edit');
+
+  // 초기 데이터 로드
+  useEffect(() => {
+    loadInitialData();
+  }, [recipientId]);
+
+  const loadInitialData = async () => {
+    try {
+      setLoading(true);
+      // 받는 사람 정보 조회
+      const recipient = await getRecipient(recipientId);
+      setRecipientData(recipient);
+      
+      // 메시지 목록 조회 (최신순)
+      const messageData = await getMessageList(recipientId, { 
+        limit, 
+        offset: 0,
+        sort: '-createdAt' // 최신순 정렬
+      });
+      
+      setMessages(messageData.results || []);
+      setHasMore(messageData.next !== null);
+      setOffset(limit);
+    } catch (error) {
+      console.error('초기 데이터 로드 실패:', error);
+      // 실패 시 mock 데이터 사용
+      setMessages(mockData.recentMessages);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 무한 스크롤을 위한 추가 메시지 로드
+  const loadMoreMessages = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    try {
+      setLoading(true);
+      const messageData = await getMessageList(recipientId, { 
+        limit, 
+        offset,
+        sort: '-createdAt'
+      });
+      
+      setMessages(prev => [...prev, ...(messageData.results || [])]);
+      setHasMore(messageData.next !== null);
+      setOffset(prev => prev + limit);
+    } catch (error) {
+      console.error('추가 메시지 로드 실패:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [recipientId, offset, loading, hasMore, limit]);
+
+  // 스크롤 이벤트 처리
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop 
+          >= document.documentElement.offsetHeight - 1000) {
+        loadMoreMessages();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loadMoreMessages]);
 
   const handleDeletePaper = async () => {
     try {
@@ -148,15 +220,38 @@ const PersonalPage = () => {
     }
   };
 
+  // 카드 클릭 시 확대 기능
+  const handleCardClick = (message) => {
+    setSelectedCard(message);
+  };
+
+  const handleCloseCard = () => {
+    setSelectedCard(null);
+  };
+
+  // + 버튼 클릭 시 메시지 작성 페이지로 이동
+  const handleAddMessage = () => {
+    navigate(`/post/${recipientId}/message`);
+  };
+
   return (
     <>
-      <Subheader data={mockData} />
+      <Subheader data={recipientData} />
       {isEditing && <Button onClick={handleDeletePaper} />}
       <CardList
         messages={messages}
         isEditing={isEditing}
         onDeleteMessage={handleDeleteMessage}
-      ></CardList>
+        onCardClick={handleCardClick}
+        onAddMessage={handleAddMessage}
+        loading={loading}
+        hasMore={hasMore}
+      />
+      
+      {/* 카드 확대 모달 */}
+      {selectedCard && (
+        <CardModal card={selectedCard} onClose={handleCloseCard} />
+      )}
     </>
   );
 };
