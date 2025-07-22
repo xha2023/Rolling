@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useAsync } from './useAsync.js';
+import useAsync from './useAsync.js';
 
 /**
  * POST, PUT, PATCH, DELETE 요청을 위한 범용 커스텀 훅

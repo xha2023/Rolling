@@ -3,6 +3,21 @@ import styled from 'styled-components';
 import completedIcon from '../../assets/icon/ic_completed.svg';
 import closeIcon from '../../assets/icon/ic_close.svg';
 
+export default function Toast({ message, onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 5000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <ToastBox>
+      <img src={completedIcon} alt="완료 아이콘" />
+      <Message>{message}</Message>
+      <CloseIcon src={closeIcon} alt="닫기 아이콘" onClick={onClose} />
+    </ToastBox>
+  );
+}
+
 const ToastBox = styled.div`
   width: 524px;
   height: 62px;
@@ -10,7 +25,7 @@ const ToastBox = styled.div`
   bottom: 48px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: ${({ theme }) => theme.colors.gray[700]};
+  background-color: rgba(0, 0, 0, 0.8);
   color: #fff3e0;
   padding: 14px 20px;
   border-radius: 8px;
@@ -36,6 +51,11 @@ const ToastBox = styled.div`
       opacity: 0;
     }
   }
+
+  @media (max-width: 360px) {
+    width: 320px;
+    height: 64px;
+  }
 `;
 
 const Message = styled.span`
@@ -46,18 +66,3 @@ const Message = styled.span`
 const CloseIcon = styled.img`
   cursor: pointer;
 `;
-
-export default function Toast({ message, onClose }) {
-  useEffect(() => {
-    const timer = setTimeout(onClose, 5000);
-    return () => clearTimeout(timer);
-  }, [onClose]);
-
-  return (
-    <ToastBox>
-      <img src={completedIcon} alt="완료 아이콘" />
-      <Message>{message}</Message>
-      <CloseIcon src={closeIcon} alt="닫기 아이콘" onClick={onClose} />
-    </ToastBox>
-  );
-}
