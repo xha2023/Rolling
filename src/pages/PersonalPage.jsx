@@ -1,17 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
 import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
-<<<<<<< HEAD
-<<<<<<< HEAD
+import CardModal from '../components/card/CardModal';
 import styled from 'styled-components';
-=======
-=======
->>>>>>> page/khs
-import { deleteRecipient } from '../api/recipients';
-import { deleteMessage } from '../api/messages';
->>>>>>> 20bebac (Fix: SendPaperPage 스타일 적용 완료)
 
 //api
 import {
@@ -20,9 +13,6 @@ import {
   getReactionsForRecipient,
 } from '../api/recipients';
 import { deleteMessage, getMessageList } from '../api/messages';
-
-//hook
-import { useFetch } from '../hooks/useFetch';
 
 //styled
 const backgroundColorMap = {
@@ -64,7 +54,21 @@ const PageWrapper = styled.div`
 const CardWrapper = styled.div`
   width: fit-content;
   position: relative;
-  margin: 113px;
+  margin: 113px auto;
+  max-width: 1200px;
+  padding: 0 24px;
+
+  /* PC에서 카드 목록 영역 반응형 */
+  @media (min-width: 1248px) {
+    padding: 0;
+    margin: 113px auto;
+  }
+
+  @media (max-width: 1247px) {
+    padding: 0 24px;
+    width: 100%;
+    max-width: none;
+  }
 `;
 
 const DeleteButton = styled(Button)`
@@ -79,6 +83,10 @@ const PersonalPage = () => {
   const [recipientInfo, setRecipientInfo] = useState(null);
   const [messages, setMessages] = useState([]);
   const [reactions, setReactions] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null); // 카드 확대 기능
+  const [loading, setLoading] = useState(false); // 무한 스크롤 로딩
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지
+  const [offset, setOffset] = useState(0); // 페이지네이션 오프셋
   const navigate = useNavigate();
 
   //get Recipient Info, Messages, reactions
@@ -99,10 +107,15 @@ const PersonalPage = () => {
     if (!recipientId) return;
     const fetchMessages = async () => {
       try {
-        const result = await getMessageList(recipientId);
+        setLoading(true);
+        const result = await getMessageList(recipientId, { limit: 6, offset: 0 });
         setMessages(result?.results || []);
+        setOffset(6);
+        setHasMore(result?.results?.length === 6);
       } catch (e) {
         console.error('messageList 불러오기 실패', e);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMessages();
@@ -147,6 +160,37 @@ const PersonalPage = () => {
     }
   };
 
+  // 무한 스크롤을 위한 더 많은 메시지 로드
+  const handleLoadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+    
+    try {
+      setLoading(true);
+      const result = await getMessageList(recipientId, { limit: 6, offset });
+      const newMessages = result?.results || [];
+      
+      if (newMessages.length < 6) {
+        setHasMore(false);
+      }
+      
+      setMessages(prev => [...prev, ...newMessages]);
+      setOffset(prev => prev + 6);
+    } catch (error) {
+      console.error('메시지 로드 실패:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [recipientId, offset, loading, hasMore]);
+
+  // 카드 클릭 시 확대 기능
+  const handleCardClick = (message) => {
+    setSelectedCard(message);
+  };
+
+  const handleCloseCard = () => {
+    setSelectedCard(null);
+  };
+
   const handleClickAdd = () => {
     navigate(`/post/${recipientId}/message`);
   };
@@ -168,8 +212,17 @@ const PersonalPage = () => {
           isEditing={isEditing}
           onDeleteMessage={handleDeleteMessage}
           onClickAdd={handleClickAdd}
+          onCardClick={handleCardClick}
+          loading={loading}
+          hasMore={hasMore}
+          onLoadMore={handleLoadMore}
         />
       </CardWrapper>
+      
+      {/* 카드 확대 모달 */}
+      {selectedCard && (
+        <CardModal card={selectedCard} onClose={handleCloseCard} />
+      )}
     </PageWrapper>
   );
 };
