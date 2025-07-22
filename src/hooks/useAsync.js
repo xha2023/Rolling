@@ -1,34 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
-export function useAsync(asyncFunction, immediate = true) {
-  const [data, setData] = useState(null);
-  const [loading, setLoding] = useState(false);
+function useAsync(asyncFunction) {
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
 
-  const execute = useCallback(
+  const wrappedFunction = useCallback(
     async (...args) => {
-      setLoding(true);
-      setData(null);
-      setData(Error);
-
+      setPending(true);
+      setError(null);
       try {
-        const response = await asyncFunctoin(...args);
-        setData(response);
-        return response;
-      } catch (err) {
-        throw err;
+        return await asyncFunction(...args);
+      } catch (error) {
+        setError(error);
       } finally {
-        setLoding(false);
+        setPending(false);
       }
     },
     [asyncFunction],
   );
 
-  useEffect(() => {
-    if (immediate) {
-      execute();
-    }
-  }, [execute, immediate]);
-
-  return { execute, data, loading, error };
+  return [pending, error, wrappedFunction];
 }
+
+export default useAsync;

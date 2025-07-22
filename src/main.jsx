@@ -12,10 +12,6 @@ import MakePersonalPage from './pages/MakePersonalPage.jsx';
 import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import EditPage from './pages/EditPage.jsx';
-<<<<<<< HEAD
-=======
-import Theme from './styles/Theme';
->>>>>>> 5de2909301740f01b857302cbc0140cbb7282509
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
 
