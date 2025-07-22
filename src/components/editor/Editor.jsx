@@ -10,7 +10,7 @@ const EditorWrapper = styled.div`
   .ProseMirror {
     border: 1px solid #ccc;
     padding: 12px;
-    border-radius: 4px;
+    border-radius: 8px;
     min-height: 200px;
   }
 

@@ -3,7 +3,6 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
 import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
-import useMutation from '../hooks/useMutation';
 import { deleteRecipient } from '../api/recipients';
 import { deleteMessage } from '../api/messages';
 
