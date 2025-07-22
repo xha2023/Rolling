@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useToast from '../../hooks/useToast';
 import styled from 'styled-components';
 import ProfileBadgeList from '../badge-profile/ProfileBadgeList';
 import EmojiBadge from '../badge-emoji/EmojiBadge';
@@ -144,6 +145,8 @@ export default function Subheader({ data }) {
   const [reactions, setReactions] = useState([]);
   const [lastSelectedEmoji, setLastSelectedEmoji] = useState(null);
 
+  const [showToast, ToastComponent] = useToast();
+
   const handleEmojiSelect = (emoji) => {
     const newEmoji = emoji.native;
     setLastSelectedEmoji(newEmoji);
@@ -180,7 +183,7 @@ export default function Subheader({ data }) {
       label: 'URL 공유',
       handler: () => {
         navigator.clipboard.writeText(window.location.href);
-        alert('URL이 복사되었습니다.');
+        showToast('URL이 복사되었습니다.');
       },
     },
   ];
@@ -279,6 +282,8 @@ export default function Subheader({ data }) {
           </ButtonGroup>
         </RightGroup>
       </SubHeaderInner>
+
+      {ToastComponent}
     </SubHeaderWrapper>
   );
 }
