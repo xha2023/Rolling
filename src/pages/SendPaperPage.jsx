@@ -1,10 +1,10 @@
 //library
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
 //components
-import Input from '../components/input/Input';
+import InputText from '../components/input/Input';
 import Select from '../components/dropdown/Select';
 import Button from '../components/button/Button';
 import ImageSelector from '../components/image-selector/ImageSelector';
@@ -12,7 +12,6 @@ import Editor from '../components/editor/Editor';
 
 //api
 import { createMessage } from '../api/messages';
-import { ProfileImage } from '../components/card/MessageCard.styled';
 // import { getProfileImages } from '../api/images'; // ✅ 프로필 이미지 목록
 
 //data
@@ -52,6 +51,7 @@ export default function SendPaperPage() {
   const [relation, setRelation] = useState(relationOptions[1]);
   const [font, setFont] = useState(fontOptions[0]);
   const [editorContent, setEditorContent] = useState('<p></p>');
+  const [editorTouched, setEditorTouched] = useState(false);
   const [selectedImage, setSelectedImage] = useState(profileImages[0]);
 
   const { id: recipientId } = useParams();
@@ -85,15 +85,18 @@ export default function SendPaperPage() {
     return textContent === '';
   };
 
+  const showEditorError = editorTouched && isEditorEmpty(editorContent);
   const isEmpty = name.trim() === '' || isEditorEmpty(editorContent);
 
   return (
     <Container>
-      <Label>From.</Label>
-      <Input
+      <Label className="firstLabel">From.</Label>
+      <InputText
         placeholder="이름을 입력해 주세요."
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        errormsg="내용을 입력해 주세요."
+        inputvalue={name}
+        style={{ width: '100%' }}
+        onInputChange={(e) => setName(e.target.value)}
       />
       <Label>프로필 이미지</Label>
       <ImageSelector
@@ -108,11 +111,22 @@ export default function SendPaperPage() {
         onChange={setRelation}
       />
       <Label>내용을 입력해 주세요</Label>
-      <Editor content={editorContent} onContentChange={setEditorContent} />
+      <Editor
+        content={editorContent}
+        onContentChange={setEditorContent}
+        onBlur={() => setEditorTouched(true)}
+        isError={showEditorError}
+      />
 
       <Label>폰트 선택</Label>
       <Select options={fontOptions} value={font} onChange={setFont} />
-      <Button onClick={handleSubmit} disabled={isEmpty}>
+      <Button
+        variant="primary"
+        size="large"
+        onClick={handleSubmit}
+        disabled={isEmpty}
+        style={{ width: '100%', marginTop: '46px' }}
+      >
         생성하기
       </Button>
     </Container>
@@ -120,13 +134,19 @@ export default function SendPaperPage() {
 }
 
 const Container = styled.div`
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 720px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  margin: 55px auto;
 `;
 
 const Label = styled.label`
-  ${({ theme }) => theme.textStyles.font16Bold};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 1.5rem;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  margin: 46px 0 16px 0;
+
+  &.firstLabel {
+    margin-top: 0;
+  }
 `;
