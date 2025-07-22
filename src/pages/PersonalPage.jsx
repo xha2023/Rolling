@@ -17,22 +17,61 @@ import { deleteMessage, getMessageList } from '../api/messages';
 import { useFetch } from '../hooks/useFetch';
 
 //styled
+const backgroundColorMap = {
+  purple: ['primary', 200],
+  blue: ['blue', 200],
+  green: ['green', 200],
+  beige: ['secondary', 200], // 예시
+};
+
 const PageWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
-  background: ${({ $backgroundImageURL, $backgroundColor }) =>
-    $backgroundImageURL
-      ? `url(${$backgroundImageURL})`
-      : $backgroundColor || '#f6f8ff'};
+  height: 100%;
+  background: ${({ theme, $backgroundImageURL, $backgroundColor }) => {
+    // 1순위: 이미지 URL이 있으면 배경 이미지로 설정
+    if ($backgroundImageURL) {
+      return `url(${$backgroundImageURL}) no-repeat center / cover`;
+    }
+
+    // 2순위: 이미지 URL이 없고, $backgroundColor가 매핑 객체에 있으면 theme 색상 사용
+    const colorKeys = $backgroundColor
+      ? backgroundColorMap[$backgroundColor]
+      : null;
+    if (colorKeys) {
+      const [key, shade] = colorKeys;
+      // theme.colors.primary[200] 같은 경로로 실제 색상 값을 반환
+      return theme.colors[key]?.[shade];
+    }
+
+    // 3순위: 매핑에 없으면 $backgroundColor 값 자체를 사용하거나 최종 기본값 사용
+    return $backgroundColor || '#f6f8ff';
+  }};
   background-size: cover;
   background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
+const CardWrapper = styled.div`
+  width: fit-content;
+  position: relative;
+  margin: 113px;
+`;
+
+const DeleteButton = styled(Button)`
+  position: absolute;
+  top: -60px;
+  right: 0;
+`;
+
+// Main component
 const PersonalPage = () => {
   const { id: recipientId } = useParams();
   const [recipientInfo, setRecipientInfo] = useState(null);
   const [messages, setMessages] = useState([]);
   const [reactions, setReactions] = useState([]);
+  const navigate = useNavigate();
 
   //get Recipient Info, Messages, reactions
   useEffect(() => {
@@ -100,6 +139,10 @@ const PersonalPage = () => {
     }
   };
 
+  const handleClickAdd = () => {
+    navigate(`/post/${recipientId}/message`);
+  };
+
   return (
     <PageWrapper
       $backgroundImageURL={recipientInfo?.backgroundImageURL}
@@ -108,12 +151,17 @@ const PersonalPage = () => {
       {recipientInfo && (
         <Subheader data={recipientInfo} reactions={reactions} />
       )}
-      {isEditing && <Button onClick={handleDeletePaper} />}
-      <CardList
-        messages={messages}
-        isEditing={isEditing}
-        onDeleteMessage={handleDeleteMessage}
-      />
+      <CardWrapper>
+        {isEditing && (
+          <DeleteButton onClick={handleDeletePaper}>삭제하기</DeleteButton>
+        )}
+        <CardList
+          messages={messages}
+          isEditing={isEditing}
+          onDeleteMessage={handleDeleteMessage}
+          onClickAdd={handleClickAdd}
+        />
+      </CardWrapper>
     </PageWrapper>
   );
 };

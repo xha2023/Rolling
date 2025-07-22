@@ -1,10 +1,30 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.div`
-  width: 384px;
-  height: 280px;
-  padding: 40px;
-  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  display: flex;
+  flex-direction: column;
+  /* --- 가로세로 비율 유지 --- */
+  aspect-ratio: 48 / 35; /* 원하는 비율로 수정 */
+  overflow: hidden;
+
+  /* 데스크탑 (기본): 3열 */
+  /* 33.33% 너비에서 gap(24px)의 2/3인 16px를 뺍니다. */
+  flex-basis: calc(33.333% - 16px);
+
+  /* 태블릿: 2열 */
+  @media (max-width: 1024px) {
+    /* 50% 너비에서 gap(24px)의 1/2인 12px를 뺍니다. */
+    flex-basis: calc(50% - 12px);
+  }
+
+  /* 모바일: 1열 */
+  @media (max-width: 767px) {
+    flex-basis: 100%; /* 한 줄에 하나씩 꽉 채움 */
+  }
+  padding: 24px;
+  aspect-ratio: 48 / 35; /* 원하는 비율로 수정 (예: 1 / 1, 16 / 9) */
+  overflow: hidden;
+  background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 `;
@@ -18,20 +38,20 @@ export const Header = styled.div`
 `;
 
 export const ProfileImage = styled.div`
-  width: 56px;
-  height: 56px;
+  /* --- 💡 변경점: 크기를 유동적으로 변경 --- */
+  width: clamp(40px, 8vw, 56px);
+  height: clamp(40px, 8vw, 56px);
   border-radius: 50%;
-  background: linear-gradient(135deg, #888 0%, #666 100%);
   margin-right: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0; /* 카드가 줄어들 때 이미지가 찌그러지지 않도록 방지 */
 
   img {
     width: 100%;
     height: 100%;
-    /* object-fit: cover; */
   }
 `;
 
@@ -40,14 +60,16 @@ export const HeaderInfo = styled.div`
 `;
 
 export const FromText = styled.h2`
-  font-size: 20px;
+  /* --- 💡 변경점: clamp()로 폰트 크기 조절 --- */
+  font-size: clamp(16px, 2.5vw, 20px);
   font-weight: 400;
   margin: 0 0 6px 0;
   color: #000000;
 `;
 
 export const NameText = styled.span`
-  font-size: 20px;
+  /* --- 💡 변경점: clamp()로 폰트 크기 조절 --- */
+  font-size: clamp(16px, 2.5vw, 20px);
   font-weight: 700;
   color: #000000;
 `;
@@ -91,29 +113,36 @@ export const StatusBadge = styled.div`
 
   padding: 0px 8px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: clamp(12px, 1.5vw, 14px);
   font-weight: 400;
   line-height: 20px;
 `;
 
 export const MessageContent = styled.div`
-  height: 106px;
+  /* --- 💡 변경점: 고정 높이 제거 --- */
+  /* height: 106px; */
+  flex-grow: 1; /* 남는 공간을 모두 차지하도록 설정 */
+  overflow: hidden; /* 내부 MessageText의 스크롤이 보이도록 */
   margin-bottom: 16px;
 `;
 
 export const MessageText = styled.p`
   width: 100%;
-  height: 106px;
-  overflow-y: auto; /* 내용이 넘치면 세로 스크롤 */
+  height: 100%; /* 부모(MessageContent)의 높이를 따름 */
+  overflow-y: auto;
   overflow-x: hidden;
-  font-size: 18px;
-  line-height: 28px;
-  color: #4a4a4a;
   font-weight: 400;
+  color: #4a4a4a;
+
+  /* --- 💡 변경점: clamp()로 폰트 및 줄 간격 조절 --- */
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: clamp(22px, 3vw, 28px);
 `;
 
 export const DateText = styled.div`
-  font-size: 12px;
-  color: #999999;
   font-weight: 400;
+  color: #999999;
+
+  /* --- 💡 변경점: clamp()로 폰트 크기 조절 --- */
+  font-size: clamp(10px, 1.5vw, 12px);
 `;
