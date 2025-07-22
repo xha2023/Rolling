@@ -51,6 +51,7 @@ export default function SendPaperPage() {
   const [relation, setRelation] = useState(relationOptions[1]);
   const [font, setFont] = useState(fontOptions[0]);
   const [editorContent, setEditorContent] = useState('<p></p>');
+  const [editorTouched, setEditorTouched] = useState(false);
   const [selectedImage, setSelectedImage] = useState(profileImages[0]);
 
   const { id: recipientId } = useParams();
@@ -84,6 +85,7 @@ export default function SendPaperPage() {
     return textContent === '';
   };
 
+  const showEditorError = editorTouched && isEditorEmpty(editorContent);
   const isEmpty = name.trim() === '' || isEditorEmpty(editorContent);
 
   return (
@@ -91,7 +93,7 @@ export default function SendPaperPage() {
       <Label className="firstLabel">From.</Label>
       <InputText
         placeholder="이름을 입력해 주세요."
-        errormsg="값을 입력해 주세요."
+        errormsg="내용을 입력해 주세요."
         inputvalue={name}
         style={{ width: '100%' }}
         onInputChange={(e) => setName(e.target.value)}
@@ -109,7 +111,12 @@ export default function SendPaperPage() {
         onChange={setRelation}
       />
       <Label>내용을 입력해 주세요</Label>
-      <Editor content={editorContent} onContentChange={setEditorContent} />
+      <Editor
+        content={editorContent}
+        onContentChange={setEditorContent}
+        onBlur={() => setEditorTouched(true)}
+        isError={showEditorError}
+      />
 
       <Label>폰트 선택</Label>
       <Select options={fontOptions} value={font} onChange={setFont} />
