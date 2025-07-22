@@ -4,9 +4,9 @@ export const listStyles = css`
   box-sizing: border-box;
   position: absolute;
   top: 100%;
-  margin-top: 4px; /* 트리거와의 간격 */
+  margin-top: 10px; /* 트리거와의 간격 */
   list-style: none;
-  padding: 10px 1px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid ${({ theme }) => theme.colors.gray[300]};
   border-radius: 8px;
   background: white;
