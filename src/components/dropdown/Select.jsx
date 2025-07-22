@@ -2,26 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDropdown } from './useDropdown';
 import * as S from './Select.styled.js';
+import arrowIcon from '../../assets/icon/ic_arrow_down.svg';
 // import Input from '../input/Input'; //인풋 불러오기
 
-// --- 임시 인풋 컴포넌트 ---
 const MockInput = styled.div`
-  padding: 8px 12px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
   background: white;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 320px;
   box-sizing: border-box;
-
-  &::after {
-    content: '▼';
-    color: #666;
-  }
+  border-radius: 8px;
 `;
-// -------------------------
 
 const Select = ({ options, placeholder, onChange, width }) => {
   const { isOpen, toggle, close, dropdownRef } = useDropdown();
@@ -39,8 +33,14 @@ const Select = ({ options, placeholder, onChange, width }) => {
 
   return (
     <S.Wrapper width={width} ref={dropdownRef}>
-      <MockInput onClick={toggle} aria-expanded={isOpen}>
+      <MockInput aria-expanded={isOpen}>
         {displayText}
+        <img
+          src={arrowIcon}
+          alt="드롭다운 아이콘"
+          onClick={toggle}
+          style={{ cursor: 'pointer' }}
+        />
       </MockInput>
 
       {isOpen && (

@@ -14,8 +14,6 @@ export const SubHeaderWrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.white};
   border-bottom: 1px solid #ededed;
-  position: sticky;
-  top: 0;
 `;
 
 const SubHeaderInner = styled.div`

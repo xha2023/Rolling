@@ -4,7 +4,7 @@ import styled, { useTheme } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
 //components
-import Input from '../components/input/Input';
+import InputText from '../components/input/Input';
 import Select from '../components/dropdown/Select';
 import Button from '../components/button/Button';
 import ImageSelector from '../components/image-selector/ImageSelector';
@@ -88,11 +88,13 @@ export default function SendPaperPage() {
 
   return (
     <Container>
-      <Label>From.</Label>
-      <Input
+      <Label className="firstLabel">From.</Label>
+      <InputText
         placeholder="이름을 입력해 주세요."
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        errormsg="값을 입력해 주세요."
+        inputvalue={name}
+        style={{ width: '100%' }}
+        onInputChange={(e) => setName(e.target.value)}
       />
       <Label>프로필 이미지</Label>
       <ImageSelector
@@ -115,7 +117,8 @@ export default function SendPaperPage() {
         variant="primary"
         size="large"
         onClick={handleSubmit}
-        style={{ width: '100%', marginTop: '20px' }}
+        disabled={isEmpty}
+        style={{ width: '100%', marginTop: '46px' }}
       >
         생성하기
       </Button>
@@ -125,13 +128,18 @@ export default function SendPaperPage() {
 
 const Container = styled.div`
   max-width: 720px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  margin: 55px auto;
 `;
 
 const Label = styled.label`
-  ${({ theme }) => theme.textStyles.font16Bold};
   font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 1.5rem;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  margin: 46px 0 16px 0;
+
+  &.firstLabel {
+    margin-top: 0;
+  }
 `;

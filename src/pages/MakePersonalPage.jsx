@@ -67,8 +67,8 @@ const MakePersonalPage = () => {
     <PageWrapper>
       <Title>To.</Title>
       <InputText
-        placeholder="ex) 김롤링"
-        errormsg="받는 사람 이름을 입력해 주세요"
+        placeholder="받는 사람 이름을 입력해 주세요."
+        errormsg="값을 입력해 주세요."
         inputvalue={recipientName}
         onInputChange={(e) => setRecipientName(e.target.value)}
         style={{ width: '100%' }}
