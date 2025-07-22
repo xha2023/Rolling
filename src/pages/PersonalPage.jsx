@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
-import Subheader from '../components/subheader/subheader';
+import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
 import useMutation from '../hooks/useMutation';
 import { deleteRecipient } from '../api/recipients';
 import { deleteMessage } from '../api/messages';
 
-const mockData = {
+export const mockData = {
   id: 12321,
   name: '다다다',
   backgroundColor: 'purple',
@@ -37,6 +37,16 @@ const mockData = {
     },
     {
       id: 23994,
+      recipientId: 12321,
+      sender: '프론트엔드 동료',
+      profileImageURL: 'https://i.pravatar.cc/100?img=1',
+      relationship: '동료',
+      content: 'UI 작업하시느라 고생 많으셨습니다!',
+      font: 'Pretendard',
+      createdAt: '2025-07-15T06:22:42.602462Z',
+    },
+    {
+      id: 23345,
       recipientId: 12321,
       sender: '프론트엔드 동료',
       profileImageURL: 'https://i.pravatar.cc/100?img=1',
@@ -140,7 +150,7 @@ const PersonalPage = () => {
 
   return (
     <>
-      <Subheader data={mockData} reactions={mockReactions} />
+      <Subheader data={mockData} />
       {isEditing && <Button onClick={handleDeletePaper} />}
       <CardList
         messages={messages}

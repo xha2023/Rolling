@@ -12,18 +12,12 @@ export const HeaderWrapper = styled.header`
 
 export const HeaderInner = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
   height: 64px;
-
+  margin: 0 auto;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 20px;
-
-  @media (max-width: 768px) {
-    padding: 0 16px;
-  }
 `;
 
 export const LogoLink = styled(NavLink)`
