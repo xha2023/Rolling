@@ -6,7 +6,7 @@ const CardContainer = styled.div`
   width: 384px;
   height: 280px;
   padding: 40px;
-  /* background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%); */
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
   display: flex;
   justify-content: center;
   align-items: center;

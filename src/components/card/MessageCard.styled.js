@@ -4,7 +4,7 @@ export const CardContainer = styled.div`
   width: 384px;
   height: 280px;
   padding: 40px;
-  /* background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%); */
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 `;
