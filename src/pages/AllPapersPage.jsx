@@ -6,6 +6,59 @@ import { getRecipients } from '../api/recipients';
 import useAsync from '../hooks/useAsync';
 import CardCarousel from '../components/card-list/CardCarousel';
 
+const AllpapersPage = () => {
+  const [popularCardList, setPopularCardList] = useState([]);
+  const [recentCardList, setRecentCardList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isLoadingRecipients, , getRecipientsAsync] = useAsync(getRecipients);
+
+  const handlePopularLoad = useCallback(async () => {
+    const result = await getRecipientsAsync({ sort: 'like' });
+    const popularCard = [...result.results];
+    setPopularCardList(popularCard);
+  }, [getRecipientsAsync]);
+
+  const handleRecentLoad = useCallback(async () => {
+    const result = await getRecipientsAsync({});
+    const recentCards = [...result.results];
+    setRecentCardList(recentCards);
+    setLoading(false);
+  }, [getRecipientsAsync]);
+
+  useEffect(() => {
+    handlePopularLoad();
+    handleRecentLoad();
+  }, [handlePopularLoad, handleRecentLoad]);
+
+  if (loading) {
+    return <Container>로딩 중...</Container>;
+  }
+
+  return (
+    <ListPage>
+      <ListContainer>
+        <ListHeader>
+          <ListTitle>인기 롤링 페이퍼 🔥</ListTitle>
+        </ListHeader>
+        <CardCarousel cardList={popularCardList} />
+      </ListContainer>
+      <ListContainer>
+        <ListHeader>
+          <ListTitle>최근에 만든 롤링 페이퍼⭐️</ListTitle>
+        </ListHeader>
+        <CardCarousel cardList={recentCardList} />
+      </ListContainer>
+      <ButtonContainer>
+        <Link to="/post">
+          <Button>나도 만들어보기</Button>
+        </Link>
+      </ButtonContainer>
+    </ListPage>
+  );
+};
+
+export default AllpapersPage;
+
 const Container = styled.div`
   padding: 20px;
   background-color: #f8f9fa;
@@ -46,11 +99,14 @@ const ListHeader = styled.section`
 `;
 
 const ListTitle = styled.h1`
-  ${Theme.textStyles.font24Bold};
-  margin-left: 2rem;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 1.5rem;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  margin-left: 26px;
 
-  @media (min-width: 768px) {
-    margin-left: 2.4rem;
+  @media (max-width: 360px) {
+    font-size: 1.25rem;
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
   }
 `;
 
@@ -106,56 +162,3 @@ const Button = styled.button`
     background-color: var(--gray-300, #ccc);
   }
 `;
-
-const AllpapersPage = () => {
-  const [popularCardList, setPopularCardList] = useState([]);
-  const [recentCardList, setRecentCardList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isLoadingRecipients, , getRecipientsAsync] = useAsync(getRecipients);
-
-  const handlePopularLoad = useCallback(async () => {
-    const result = await getRecipientsAsync({ sort: 'like' });
-    const popularCard = [...result.results];
-    setPopularCardList(popularCard);
-  }, [getRecipientsAsync]);
-
-  const handleRecentLoad = useCallback(async () => {
-    const result = await getRecipientsAsync({});
-    const recentCards = [...result.results];
-    setRecentCardList(recentCards);
-    setLoading(false);
-  }, [getRecipientsAsync]);
-
-  useEffect(() => {
-    handlePopularLoad();
-    handleRecentLoad();
-  }, [handlePopularLoad, handleRecentLoad]);
-
-  if (loading) {
-    return <Container>로딩 중...</Container>;
-  }
-
-  return (
-    <ListPage>
-      <ListContainer>
-        <ListHeader>
-          <ListTitle>인기 롤링 페이퍼 🔥</ListTitle>
-        </ListHeader>
-        <CardCarousel cardList={popularCardList} />
-      </ListContainer>
-      <ListContainer>
-        <ListHeader>
-          <ListTitle>최근에 만든 롤링 페이퍼⭐️</ListTitle>
-        </ListHeader>
-        <CardCarousel cardList={recentCardList} />
-      </ListContainer>
-      <ButtonContainer>
-        <Link to="/post">
-          <Button>나도 만들어보기</Button>
-        </Link>
-      </ButtonContainer>
-    </ListPage>
-  );
-};
-
-export default AllpapersPage;

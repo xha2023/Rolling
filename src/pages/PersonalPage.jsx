@@ -3,15 +3,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
 import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import styled from 'styled-components';
-=======
-=======
->>>>>>> page/khs
-import { deleteRecipient } from '../api/recipients';
-import { deleteMessage } from '../api/messages';
->>>>>>> 20bebac (Fix: SendPaperPage 스타일 적용 완료)
 
 //api
 import {
