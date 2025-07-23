@@ -154,10 +154,26 @@ const Container = styled.div`
   /* max-width: 720px; */
   display: flex;
   flex-direction: column;
+
   margin: 47px auto;
 
-  @media (max-width: 767px) {
-    padding: 49px 24px;
+  @media (min-width: 320px) {
+    margin: 49px 24px;
+  }
+
+  @media (min-width: 768px) {
+    width: 720px;
+    margin: 47px auto;
+  }
+`;
+
+const ButtonBox = styled.div`
+  @media (min-width: 320px) {
+    margin-top: 182px;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 0;
   }
 `;
 
