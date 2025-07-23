@@ -3,9 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Theme from './styles/theme.js';
 
-//컴포넌트 테스트 버튼 추가했습니다.
-import Test from './components/subheader/text.jsx';
-
 //Page Component
 import AllpapersPage from './pages/AllPapersPage.jsx';
 import HomePage from './pages/HomePage.jsx';
@@ -21,6 +18,7 @@ import './api/test-console.js';
 
 function Main() {
   return (
+
     <HelmetProvider>
       <ThemeProvider theme={Theme}>
         <GlobalStyle />
@@ -32,9 +30,7 @@ function Main() {
               <Route path="post" element={<MakePersonalPage />} />
               <Route path="post/:id" element={<PersonalPage />} />
               <Route path="/post/:id/message" element={<SendPaperPage />} />
-              <Route path="/post/:id/edit" element={<PersonalPage />} />
-              {/* 컴포넌트 테스트 파일 추가했습니다 */}
-              <Route path="/test-topbar" element={<Test />} />
+              <Route path="/post/:id/edit" element={<PersonalPage />} />  
             </Route>
           </Routes>
         </Router>

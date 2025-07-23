@@ -33,14 +33,13 @@ const Select = ({ options, placeholder, onChange, width }) => {
 
   return (
     <S.Wrapper width={width} ref={dropdownRef}>
-      <MockInput aria-expanded={isOpen}>
+      <MockInput
+        aria-expanded={isOpen}
+        onClick={toggle}
+        style={{ cursor: 'pointer' }}
+      >
         {displayText}
-        <img
-          src={arrowIcon}
-          alt="드롭다운 아이콘"
-          onClick={toggle}
-          style={{ cursor: 'pointer' }}
-        />
+        <img src={arrowIcon} alt="드롭다운 아이콘" />
       </MockInput>
 
       {isOpen && (

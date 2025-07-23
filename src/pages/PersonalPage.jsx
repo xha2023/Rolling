@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import CardList from '../components/card-list/CardList';
-import Subheader from '../components/subheader/ReSubheader';
+import Subheader from '../components/subheader/Subheader';
 import Button from '../components/button/Button';
+import CardModal from '../components/card/CardModal';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet-async';
 
@@ -13,9 +14,6 @@ import {
   getReactionsForRecipient,
 } from '../api/recipients';
 import { deleteMessage, getMessageList } from '../api/messages';
-
-//hook
-import { useFetch } from '../hooks/useFetch';
 
 //styled
 const backgroundColorMap = {
@@ -38,6 +36,10 @@ const PersonalPage = () => {
   const [recipientInfo, setRecipientInfo] = useState(null);
   const [messages, setMessages] = useState([]);
   const [reactions, setReactions] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null); // 카드 확대 기능
+  const [loading, setLoading] = useState(false); // 무한 스크롤 로딩
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지
+  const [offset, setOffset] = useState(0); // 페이지네이션 오프셋
   const navigate = useNavigate();
 
   //get Recipient Info, Messages, reactions
@@ -58,10 +60,18 @@ const PersonalPage = () => {
     if (!recipientId) return;
     const fetchMessages = async () => {
       try {
-        const result = await getMessageList(recipientId);
+        setLoading(true);
+        const result = await getMessageList(recipientId, {
+          limit: 6,
+          offset: 0,
+        });
         setMessages(result?.results || []);
+        setOffset(6);
+        setHasMore(result?.results?.length === 6);
       } catch (e) {
         console.error('messageList 불러오기 실패', e);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMessages();
@@ -104,6 +114,37 @@ const PersonalPage = () => {
     } catch (e) {
       console.error('메세지 삭제 실패', e);
     }
+  };
+
+  // 무한 스크롤을 위한 더 많은 메시지 로드
+  const handleLoadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    try {
+      setLoading(true);
+      const result = await getMessageList(recipientId, { limit: 6, offset });
+      const newMessages = result?.results || [];
+
+      if (newMessages.length < 6) {
+        setHasMore(false);
+      }
+
+      setMessages((prev) => [...prev, ...newMessages]);
+      setOffset((prev) => prev + 6);
+    } catch (error) {
+      console.error('메시지 로드 실패:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [recipientId, offset, loading, hasMore]);
+
+  // 카드 클릭 시 확대 기능
+  const handleCardClick = (message) => {
+    setSelectedCard(message);
+  };
+
+  const handleCloseCard = () => {
+    setSelectedCard(null);
   };
 
   const handleClickAdd = () => {
