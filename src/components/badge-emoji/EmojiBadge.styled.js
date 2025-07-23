@@ -11,6 +11,10 @@ export const EmojiBadgeWrapper = styled.button`
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
   cursor: pointer;
+
+  @media (max-width: 360px) {
+    width: 55px;
+  }
 `;
 
 export const Emoji = styled.span`

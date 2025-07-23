@@ -79,7 +79,7 @@ export default function BackgroundSelector({ selectedColor, onChangeColor }) {
           isSelected={tab === 'color'}
           size="compact"
           onClick={() => setTab('color')}
-          position="left"
+          $position="left"
         >
           컬러
         </Button>
@@ -88,7 +88,7 @@ export default function BackgroundSelector({ selectedColor, onChangeColor }) {
           isSelected={tab === 'image'}
           size="compact"
           onClick={() => setTab('image')}
-          position="right"
+          $position="right"
         >
           이미지
         </Button>
