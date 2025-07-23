@@ -7,6 +7,7 @@ const Theme = {
       300: '#DCB9FF',
       400: '#C894FD',
       500: '#AB57FF',
+      600: '#9935FF',
       700: '#6E0AD1',
       800: '#861DEE',
       900: '#5603A7',
@@ -29,7 +30,7 @@ const Theme = {
       500: '#00A2FE',
     },
     //Green
-    Green: {
+    green: {
       100: '#E4FBDC',
       200: '#D0F5C3',
       300: '#9BE282',
@@ -134,6 +135,13 @@ const Theme = {
       fontSize: 'md', // 16px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
+    },
+    font16Medium: {
+      fontFamily: 'body',
+      fontSize: 'md', // 16px
+      fontWeight: 'medium', // Medium (500)
+      lineHeight: 'normal',
+      letterSpacing: 'normal',
     },
     font16Regular: {
       fontFamily: 'body',

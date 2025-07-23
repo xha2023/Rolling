@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
   }
+
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure,
   footer, header, hgroup, menu, nav, section {
@@ -29,6 +30,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     line-height: 1;
+
   }
   ol, ul {
     list-style: none;
@@ -53,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: ${({ theme }) => theme.fonts.body}; /* Pretendard 폰트 적용 */
     font-size: ${({ theme }) => theme.fontSizes.md}; /* 기본 폰트 크기 (16px) */
-    background-color: ${({ theme }) => theme.colors.surface}; /* 기본 배경색 */
+    background-color: ${({ theme }) => theme.colors.white}; /* 기본 배경색 */
     color: ${({ theme }) => theme.colors.black};
 
     /* 폰트 렌더링 최적화 (선택 사항) */
