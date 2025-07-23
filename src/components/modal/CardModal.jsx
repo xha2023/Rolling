@@ -2,6 +2,81 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import defaultProfile from '../../assets/svg/default_profile.svg';
 
+const CardModal = ({ card, onClose }) => {
+  if (!card) return null;
+
+  // ESC 키로 모달 닫기
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [onClose]);
+
+  // 스크롤 방지
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date
+      .toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      })
+      .replace(/\. /g, '.')
+      .replace(/\.$/, '');
+  };
+
+  return (
+    <ModalOverlay onClick={handleOverlayClick}>
+      <ModalContent>
+        <CloseButton onClick={onClose}>×</CloseButton>
+        <CardContainer>
+          <Header>
+            <ProfileImage>
+              {card.profileImageURL ? (
+                <img src={card.profileImageURL} alt="Profile" />
+              ) : (
+                <img src={defaultProfile} alt="Profile" />
+              )}
+            </ProfileImage>
+            <HeaderInfo>
+              <FromText>
+                From. <NameText>{card.sender}</NameText>
+              </FromText>
+              <StatusBadge>{card.relationship}</StatusBadge>
+            </HeaderInfo>
+          </Header>
+
+          <MessageContent>
+            <MessageText>{card.content}</MessageText>
+          </MessageContent>
+
+          <DateText>{formatDate(card.createdAt)}</DateText>
+        </CardContainer>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
+export default CardModal;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -42,7 +117,7 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:hover {
     background-color: #f5f5f5;
   }
@@ -126,75 +201,3 @@ const DateText = styled.div`
   font-weight: 400;
   text-align: right;
 `;
-
-const CardModal = ({ card, onClose }) => {
-  if (!card) return null;
-
-  // ESC 키로 모달 닫기
-  useEffect(() => {
-    const handleEscKey = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscKey);
-    return () => document.removeEventListener('keydown', handleEscKey);
-  }, [onClose]);
-
-  // 스크롤 방지
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).replace(/\. /g, '.').replace(/\.$/, '');
-  };
-
-  return (
-    <ModalOverlay onClick={handleOverlayClick}>
-      <ModalContent>
-        <CloseButton onClick={onClose}>×</CloseButton>
-        <CardContainer>
-          <Header>
-            <ProfileImage>
-              {card.profileImageURL ? (
-                <img src={card.profileImageURL} alt="Profile" />
-              ) : (
-                <img src={defaultProfile} alt="Profile" />
-              )}
-            </ProfileImage>
-            <HeaderInfo>
-              <FromText>
-                From. <NameText>{card.sender}</NameText>
-              </FromText>
-              <StatusBadge>{card.relationship}</StatusBadge>
-            </HeaderInfo>
-          </Header>
-
-          <MessageContent>
-            <MessageText>{card.content}</MessageText>
-          </MessageContent>
-
-          <DateText>{formatDate(card.createdAt)}</DateText>
-        </CardContainer>
-      </ModalContent>
-    </ModalOverlay>
-  );
-};
-
-export default CardModal;

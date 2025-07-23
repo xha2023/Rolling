@@ -41,7 +41,7 @@ const CloseButton = styled.button`
   font-size: 24px;
   cursor: pointer;
   color: #666;
-  
+
   &:hover {
     color: #333;
   }
@@ -151,7 +151,7 @@ const CardModal = ({ card, onClose }) => {
     <ModalOverlay onClick={handleOverlayClick}>
       <ModalContent>
         <CloseButton onClick={onClose}>×</CloseButton>
-        
+
         <Header>
           <ProfileImage>
             {card.profileImageURL ? (
