@@ -7,6 +7,7 @@ const Theme = {
       300: '#DCB9FF',
       400: '#C894FD',
       500: '#AB57FF',
+      600: '#9935FF',
       700: '#6E0AD1',
       800: '#861DEE',
       900: '#5603A7',
@@ -89,7 +90,7 @@ const Theme = {
     },
     font24Bold: {
       fontFamily: 'body',
-      fontSize: '1.5rem', // 24px
+      fontSize: '2xl', // 24px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
       letterSpacing: '-0.01em',
@@ -117,7 +118,7 @@ const Theme = {
     },
     font18Bold: {
       fontFamily: 'body',
-      fontSize: '18px', // 18px
+      fontSize: 'lg', // 18px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
       letterSpacing: '-0.01em',

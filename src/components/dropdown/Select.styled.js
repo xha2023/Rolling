@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
 
 export const List = styled.ul`
   ${listStyles}
+  overflow: hidden;
 `;
 
 export const Item = styled.li`
