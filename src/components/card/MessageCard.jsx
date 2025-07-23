@@ -4,6 +4,7 @@ import Button from '../button/Button.jsx';
 import Badge from '../badge/TextBadge';
 import binIcon from '../../assets/icon/ic_bin.svg';
 import defaultProfile from '../../assets/svg/default_profile.svg';
+import { formatDate } from '../../utils/FormatDate.js'; // 날짜 포맷 유틸리티
 
 import {
   CardContainer,
@@ -33,11 +34,8 @@ const MessageCard = forwardRef(
     },
     ref,
   ) => {
-    const formattedDate = new Date(date).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    });
+    const formattedDate = formatDate(date);
+
     return (
       <CardContainer
         ref={ref}
