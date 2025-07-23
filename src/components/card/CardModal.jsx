@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Badge from '../badge/TextBadge';
 import styled from 'styled-components';
 import defaultProfile from '../../assets/svg/default_profile.svg';
 
@@ -90,17 +91,6 @@ const NameText = styled.span`
   color: #000000;
 `;
 
-const StatusBadge = styled.div`
-  display: inline-block;
-  background: #f8f0ff;
-  color: #9935ff;
-  padding: 0px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-`;
-
 const MessageContent = styled.div`
   height: 280px;
   margin-bottom: 16px;
@@ -112,7 +102,7 @@ const MessageContent = styled.div`
   }
 `;
 
-const MessageText = styled.p`
+const MessageText = styled.div`
   font-size: 18px;
   line-height: 28px;
   color: #4a4a4a;
@@ -164,12 +154,12 @@ const CardModal = ({ card, onClose }) => {
             <FromText>
               From. <NameText>{card.sender}</NameText>
             </FromText>
-            <StatusBadge>{card.relationship}</StatusBadge>
+            <Badge label={card.relationship} />
           </HeaderInfo>
         </Header>
 
         <MessageContent>
-          <MessageText>{card.content}</MessageText>
+          <MessageText dangerouslySetInnerHTML={{ __html: card.content }} />
         </MessageContent>
 
         <DateText>{new Date(card.createdAt).toLocaleDateString()}</DateText>
