@@ -240,3 +240,5 @@ const DeleteButton = styled(Button)`
   top: -60px;
   right: 0;
 `;
+
+export { PageWrapper, CardWrapper, DeleteButton };
