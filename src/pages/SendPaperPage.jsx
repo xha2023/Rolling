@@ -154,6 +154,7 @@ const Container = styled.div`
   /* max-width: 720px; */
   display: flex;
   flex-direction: column;
+  padding: 0 24px;
 
   margin: 47px auto;
 
