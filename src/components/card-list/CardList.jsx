@@ -17,18 +17,21 @@ export default function CardList({
   const lastMessageElementRef = useRef();
 
   // 무한 스크롤을 위한 Intersection Observer 설정
-  const lastMessageRef = useCallback(node => {
-    if (loading) return;
-    if (observerRef.current) observerRef.current.disconnect();
-    
-    observerRef.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore && onLoadMore) {
-        onLoadMore();
-      }
-    });
-    
-    if (node) observerRef.current.observe(node);
-  }, [loading, hasMore, onLoadMore]);
+  const lastMessageRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observerRef.current) observerRef.current.disconnect();
+
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore && onLoadMore) {
+          onLoadMore();
+        }
+      });
+
+      if (node) observerRef.current.observe(node);
+    },
+    [loading, hasMore, onLoadMore],
+  );
 
   return (
     <CardlistContainer>
@@ -42,13 +45,11 @@ export default function CardList({
           content,
           createdAt,
           font,
-        }) => (
         } = message;
-        
-        const isLastMessage = index === messages.length - 1;
-        
-        return (
 
+        const isLastMessage = index === messages.length - 1;
+
+        return (
           <MessageCard
             ref={isLastMessage ? lastMessageRef : null}
             messageId={messageId}
@@ -66,7 +67,9 @@ export default function CardList({
         );
       })}
       {loading && (
-        <div style={{ textAlign: 'center', padding: '20px', gridColumn: '1 / -1' }}>
+        <div
+          style={{ textAlign: 'center', padding: '20px', gridColumn: '1 / -1' }}
+        >
           로딩 중...
         </div>
       )}
