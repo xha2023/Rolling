@@ -84,13 +84,13 @@ export default function Subheader({ data, totalWriters }) {
   const handleKakaoShare = () => {
     console.log('🚀 카카오 공유 시작!');
     console.log('Kakao 객체:', window.Kakao);
-    
+
     if (!window.Kakao) {
       console.error('❌ Kakao 없음');
       showToast('카카오 SDK 로드 실패');
       return;
     }
-    
+
     if (!window.Kakao.isInitialized()) {
       console.error('❌ 초기화 안됨');
       showToast('카카오 SDK 초기화 안됨');
@@ -98,7 +98,7 @@ export default function Subheader({ data, totalWriters }) {
     }
 
     console.log('✅ 공유 실행!');
-    
+
     try {
       window.Kakao.Share.sendDefault({
         objectType: 'feed',
@@ -121,9 +121,8 @@ export default function Subheader({ data, totalWriters }) {
           },
         ],
       });
-      
+
       console.log('🎉 공유 성공!');
-      
     } catch (error) {
       console.error('❌ 공유 실패:', error);
       showToast('카카오톡 공유 실패');
