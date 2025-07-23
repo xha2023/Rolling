@@ -16,8 +16,8 @@ import { createMessage } from '../api/messages';
 
 //data
 const relationOptions = [
-  { value: '친구', label: '친구' },
   { value: '지인', label: '지인' },
+  { value: '친구', label: '친구' },
   { value: '동료', label: '동료' },
   { value: '가족', label: '가족' },
 ];
@@ -48,7 +48,7 @@ const profileImages = profileImageData.imageUrls;
 
 export default function SendPaperPage() {
   const [name, setName] = useState('');
-  const [relation, setRelation] = useState(relationOptions[1]);
+  const [relation, setRelation] = useState(relationOptions[0]);
   const [font, setFont] = useState(fontOptions[0]);
   const [editorContent, setEditorContent] = useState('<p></p>');
   const [editorTouched, setEditorTouched] = useState(false);
@@ -86,7 +86,8 @@ export default function SendPaperPage() {
   };
 
   const showEditorError = editorTouched && isEditorEmpty(editorContent);
-  const isEmpty = name.trim() === '' || isEditorEmpty(editorContent);
+  const isEmpty =
+    name.trim() === '' || isEditorEmpty(editorContent) || !relation;
 
   return (
     <Container>
