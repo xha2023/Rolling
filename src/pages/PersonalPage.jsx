@@ -185,7 +185,11 @@ const PersonalPage = () => {
             isEditing={isEditing}
             onDeleteMessage={handleDeleteMessage}
             onClickAdd={handleClickAdd}
+            onCardClick={handleCardClick}
           />
+          {selectedCard && (
+            <CardModal card={selectedCard} onClose={handleCloseCard} />
+          )}
         </CardWrapper>
       </PageWrapper>
     </>
