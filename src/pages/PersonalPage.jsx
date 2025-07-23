@@ -41,6 +41,8 @@ const PersonalPage = () => {
   const [loading, setLoading] = useState(false); // 무한 스크롤 로딩
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지
   const [offset, setOffset] = useState(0); // 페이지네이션 오프셋
+  const [writerProfiles, setWriterProfiles] = useState([]);
+
   const navigate = useNavigate();
 
   //get Recipient Info, Messages, reactions
@@ -66,9 +68,22 @@ const PersonalPage = () => {
           limit: 6,
           offset: 0,
         });
-        setMessages(result?.results || []);
+        const messageResults = result?.results || [];
+        setMessages(messageResults);
         setOffset(6);
-        setHasMore(result?.results?.length === 6);
+        setHasMore(messageResults.length === 6);
+
+        const writersMap = new Map();
+        messageResults.forEach((msg) => {
+          const existing = writersMap.get(msg.sender);
+          if (!existing || (!existing.profileImageURL && msg.profileImageURL)) {
+            writersMap.set(msg.sender, {
+              sender: msg.sender,
+              profileImageURL: msg.profileImageURL,
+            });
+          }
+        });
+        setWriterProfiles([...writersMap.values()]);
       } catch (e) {
         console.error('messageList 불러오기 실패', e);
       } finally {
@@ -172,7 +187,10 @@ const PersonalPage = () => {
         $backgroundColor={recipientInfo?.backgroundColor}
       >
         {recipientInfo && (
-          <Subheader data={recipientInfo} reactions={reactions} />
+          <Subheader
+            data={{ ...recipientInfo, writerProfiles }}
+            totalWriters={writerProfiles.length}
+          />
         )}
         <CardWrapper>
           {isEditing && (
@@ -181,7 +199,7 @@ const PersonalPage = () => {
           <CardList
             messages={messages.map((msg) => ({
               ...msg,
-              font: fontMap[msg.font] || msg.font, // DB에서 받은 font명을 영문 폰트명으로 매핑
+              font: fontMap[msg.font] || msg.font,
             }))}
             isEditing={isEditing}
             onDeleteMessage={handleDeleteMessage}
