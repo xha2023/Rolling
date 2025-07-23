@@ -3,6 +3,7 @@ import styled from 'styled-components';
 // import plusImg from '../../assets/svg/plus.svg';
 import { CardContainer } from './MessageCard.styled';
 import CircleButton from '../button/CircleButton';
+import plusIcon from '../../assets/icon/ic_plus.svg';
 
 const CardAddContainer = styled(CardContainer)`
   display: flex;
@@ -16,7 +17,7 @@ const CardAddContainer = styled(CardContainer)`
 const AddCard = ({ onClickAdd }) => {
   return (
     <CardAddContainer>
-      <CircleButton onClick={onClickAdd} />
+      <CircleButton onClick={onClickAdd} icon={plusIcon} />
     </CardAddContainer>
   );
 };

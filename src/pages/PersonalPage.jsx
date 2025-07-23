@@ -108,7 +108,10 @@ const PersonalPage = () => {
     const fetchMessages = async () => {
       try {
         setLoading(true);
-        const result = await getMessageList(recipientId, { limit: 6, offset: 0 });
+        const result = await getMessageList(recipientId, {
+          limit: 6,
+          offset: 0,
+        });
         setMessages(result?.results || []);
         setOffset(6);
         setHasMore(result?.results?.length === 6);
@@ -163,18 +166,18 @@ const PersonalPage = () => {
   // 무한 스크롤을 위한 더 많은 메시지 로드
   const handleLoadMore = useCallback(async () => {
     if (loading || !hasMore) return;
-    
+
     try {
       setLoading(true);
       const result = await getMessageList(recipientId, { limit: 6, offset });
       const newMessages = result?.results || [];
-      
+
       if (newMessages.length < 6) {
         setHasMore(false);
       }
-      
-      setMessages(prev => [...prev, ...newMessages]);
-      setOffset(prev => prev + 6);
+
+      setMessages((prev) => [...prev, ...newMessages]);
+      setOffset((prev) => prev + 6);
     } catch (error) {
       console.error('메시지 로드 실패:', error);
     } finally {
@@ -218,7 +221,7 @@ const PersonalPage = () => {
           onLoadMore={handleLoadMore}
         />
       </CardWrapper>
-      
+
       {/* 카드 확대 모달 */}
       {selectedCard && (
         <CardModal card={selectedCard} onClose={handleCloseCard} />
