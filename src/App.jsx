@@ -10,6 +10,15 @@ function App() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    // 카카오 SDK 초기화
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      const kakaoApiKey = import.meta.env.VITE_KAKAO_API_KEY;
+      if (kakaoApiKey) {
+        window.Kakao.init(kakaoApiKey);
+        console.log('카카오 SDK 초기화 완료');
+      }
+    }
+
     const checkScreenSize = () => {
       const width = window.innerWidth;
       setIsMobile(width <= 767);

@@ -24,17 +24,34 @@ const SubHeaderInner = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   padding: 0 24px;
+
+  /* 모바일에서 높이 조정 */
+  @media (max-width: 768px) {
+    height: 60px;
+    padding: 0 16px;
+  }
 `;
 
 const NameText = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xl};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  flex-shrink: 0; /* 크기 축소 방지 */
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+  }
 `;
 
 const RightGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0; /* 크기 축소 방지 */
+
+  @media (max-width: 768px) {
+    gap: 6px;
+  }
 `;
 
 const ProfileList = styled.div`
@@ -42,6 +59,7 @@ const ProfileList = styled.div`
   align-items: center;
   border: 2px solid ${({ theme }) => theme.colors.white};
   border-radius: 50%;
+  flex-shrink: 0; /* 크기 축소 방지 */
 
   .more-count {
     width: 28px;
@@ -57,11 +75,24 @@ const ProfileList = styled.div`
     margin-left: -12px;
     z-index: 1;
   }
+
+  @media (max-width: 768px) {
+    .more-count {
+      width: 24px;
+      height: 24px;
+      font-size: 10px;
+    }
+  }
 `;
 
 const WriterText = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.gray[500]};
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+  }
 `;
 
 const Divider = styled.div`
@@ -73,6 +104,10 @@ const Divider = styled.div`
 
 const EmojiGroupWrapper = styled.div`
   position: relative;
+
+  @media (max-width: 768px) {
+    display: none; /* 모바일에서 이모지 그룹 숨김 */
+  }
 `;
 
 const EmojiGroup = styled.div`
@@ -116,6 +151,10 @@ const ButtonGroup = styled.div`
   align-items: center;
   gap: 4px;
   position: relative;
+
+  @media (max-width: 768px) {
+    gap: 2px;
+  }
 `;
 
 const EmojiButton = styled(Button)`
@@ -144,6 +183,34 @@ export default function Subheader({ data }) {
   const [lastSelectedEmoji, setLastSelectedEmoji] = useState(null);
 
   const [showToast, ToastComponent] = useToast();
+
+  const handleKakaoShare = () => {
+    if (window.Kakao && window.Kakao.isInitialized()) {
+      window.Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: `${name}님의 롤링 페이퍼`,
+          description: `${recentMessages.length}명이 ${name}님에게 마음을 전했어요!`,
+          imageUrl: 'https://rolling-paper.vercel.app/logo.png', // 실제 이미지 URL로 변경
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+        buttons: [
+          {
+            title: '롤링 페이퍼 보기',
+            link: {
+              mobileWebUrl: window.location.href,
+              webUrl: window.location.href,
+            },
+          },
+        ],
+      });
+    } else {
+      showToast('카카오 공유 기능을 사용할 수 없습니다.');
+    }
+  };
 
   const handleEmojiSelect = (emoji) => {
     const newEmoji = emoji.native;
@@ -176,7 +243,7 @@ export default function Subheader({ data }) {
   const dropdownReactions = sorted.slice(0, 8);
 
   const shareMenuItems = [
-    { label: '카카오톡 공유', handler: () => alert('카카오 공유!') },
+    { label: '카카오톡 공유', handler: handleKakaoShare },
     {
       label: 'URL 공유',
       handler: () => {
