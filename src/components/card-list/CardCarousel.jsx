@@ -93,6 +93,9 @@ const StyledSwiper = styled(Swiper)`
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: auto;
+    z-index: 10;
+
     &::after {
       font-size: 16px;
     }
