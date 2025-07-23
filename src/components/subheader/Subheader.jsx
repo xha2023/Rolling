@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { createReaction, getReactionsForRecipient } from '../../api/recipients';
+
 import useToast from '../../hooks/useToast';
 import styled from 'styled-components';
 import ProfileBadgeList from '../badge-profile/ProfileBadgeList';
@@ -9,6 +12,217 @@ import Picker from '@emoji-mart/react';
 import shareIcon from '../../assets/icon/ic_share.svg';
 import emojiIcon from '../../assets/icon/ic_emoji.svg';
 import arrowIcon from '../../assets/icon/ic_arrow_down.svg';
+
+export default function Subheader({ data }) {
+  const { name, recentMessages } = data;
+
+  const { id: recipientId } = useParams();
+
+  const [isPickerVisible, setIsPickerVisible] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [reactions, setReactions] = useState([]);
+  const [lastSelectedEmoji, setLastSelectedEmoji] = useState(null);
+  const [showToast, ToastComponent] = useToast();
+
+  useEffect(() => {
+    if (!recipientId) return;
+
+    const fetchReactions = async () => {
+      try {
+        const result = await getReactionsForRecipient(recipientId);
+        setReactions(result?.results || []);
+      } catch (error) {
+        console.error('이모지 불러오기 실패:', error);
+      }
+    };
+
+    fetchReactions();
+  }, [recipientId]);
+
+  const handleEmojiSelect = async (emoji) => {
+    const newEmoji = emoji.native;
+    setLastSelectedEmoji(newEmoji);
+
+    try {
+      await createReaction(recipientId, { emoji: newEmoji, type: 'increase' });
+
+      const updated = await getReactionsForRecipient(recipientId);
+      setReactions(updated?.results || []);
+    } catch (err) {
+      console.error('이모지 전송 실패:', err);
+    }
+
+    setIsPickerVisible(false);
+  };
+
+  const sorted = [...reactions].sort((a, b) => {
+    if (b.count !== a.count) return b.count - a.count;
+    return a.lastUpdated - b.lastUpdated;
+  });
+
+  const displayReactions = sorted.slice(0, 3);
+  const dropdownReactions = sorted.slice(0, 8);
+
+  // 카카오톡 공유 기능
+  const handleKakaoShare = () => {
+    console.log('🚀 카카오 공유 시작!');
+    console.log('Kakao 객체:', window.Kakao);
+    
+    if (!window.Kakao) {
+      console.error('❌ Kakao 없음');
+      showToast('카카오 SDK 로드 실패');
+      return;
+    }
+    
+    if (!window.Kakao.isInitialized()) {
+      console.error('❌ 초기화 안됨');
+      showToast('카카오 SDK 초기화 안됨');
+      return;
+    }
+
+    console.log('✅ 공유 실행!');
+    
+    try {
+      window.Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: `${name}님의 롤링 페이퍼`,
+          description: `${recentMessages.length}명이 따뜻한 메시지를 남겼어요! 💌`,
+          imageUrl: 'https://picsum.photos/800/400',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+        buttons: [
+          {
+            title: '메시지 확인하기',
+            link: {
+              mobileWebUrl: window.location.href,
+              webUrl: window.location.href,
+            },
+          },
+        ],
+      });
+      
+      console.log('🎉 공유 성공!');
+      
+    } catch (error) {
+      console.error('❌ 공유 실패:', error);
+      showToast('카카오톡 공유 실패');
+    }
+  };
+
+  const shareMenuItems = [
+    { label: '카카오톡 공유', handler: handleKakaoShare },
+    {
+      label: 'URL 공유',
+      handler: () => {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('URL이 복사되었습니다.');
+      },
+    },
+  ];
+
+  return (
+    <SubHeaderWrapper>
+      <SubHeaderInner>
+        <NameText>To. {name}</NameText>
+
+        <RightGroup>
+          <ProfileList>
+            {recentMessages.slice(0, 3).map((msg) => (
+              <ProfileBadgeList
+                key={msg.id}
+                imageUrl={msg.profileImageURL}
+                alt={msg.sender}
+              />
+            ))}
+            {recentMessages.length > 3 && (
+              <div className="more-count">+{recentMessages.length - 3}</div>
+            )}
+          </ProfileList>
+
+          <WriterText>{recentMessages.length}명이 작성했어요!</WriterText>
+          <Divider />
+
+          <EmojiGroupWrapper>
+            <EmojiGroup>
+              {displayReactions.map((reaction) => (
+                <EmojiBadge
+                  key={reaction.emoji}
+                  emoji={reaction.emoji}
+                  count={reaction.count}
+                />
+              ))}
+
+              <EmojiDropdownButton
+                onClick={() => setIsDropdownOpen((prev) => !prev)}
+              >
+                <img src={arrowIcon} alt="더보기" />
+              </EmojiDropdownButton>
+            </EmojiGroup>
+
+            {isDropdownOpen && (
+              <DropdownWrapper>
+                {dropdownReactions.map((reaction) => (
+                  <EmojiBadge
+                    key={reaction.emoji}
+                    emoji={reaction.emoji}
+                    count={reaction.count}
+                  />
+                ))}
+              </DropdownWrapper>
+            )}
+          </EmojiGroupWrapper>
+
+          <ButtonGroup>
+            <EmojiButton
+              variant="outlined"
+              size="small"
+              onClick={() => setIsPickerVisible((prev) => !prev)}
+            >
+              <img src={emojiIcon} alt="이모지 아이콘" />
+              <span>추가</span>
+            </EmojiButton>
+
+            {isPickerVisible && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '48px',
+                  right: '0',
+                  zIndex: 1000,
+                }}
+              >
+                <Picker
+                  onEmojiSelect={handleEmojiSelect}
+                  theme="light"
+                  previewPosition="none"
+                  searchPosition="top"
+                  skinTonePosition="none"
+                />
+              </div>
+            )}
+
+            <Divider />
+
+            <Menu
+              triggerText={
+                <ShareButton variant="outlined" size="small">
+                  <img src={shareIcon} alt="공유" />
+                </ShareButton>
+              }
+              items={shareMenuItems}
+            />
+          </ButtonGroup>
+        </RightGroup>
+      </SubHeaderInner>
+
+      {ToastComponent}
+    </SubHeaderWrapper>
+  );
+}
 
 export const SubHeaderWrapper = styled.div`
   width: 100%;
@@ -133,155 +347,3 @@ const ShareButton = styled(Button)`
   align-items: center;
   justify-content: center;
 `;
-
-export default function Subheader({ data }) {
-  const { name, recentMessages } = data;
-
-  const [isPickerVisible, setIsPickerVisible] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const [reactions, setReactions] = useState([]);
-  const [lastSelectedEmoji, setLastSelectedEmoji] = useState(null);
-
-  const [showToast, ToastComponent] = useToast();
-
-  const handleEmojiSelect = (emoji) => {
-    const newEmoji = emoji.native;
-    setLastSelectedEmoji(newEmoji);
-
-    setReactions((prev) => {
-      const now = Date.now();
-      const exists = prev.find((r) => r.emoji === newEmoji);
-
-      if (exists) {
-        return prev.map((r) =>
-          r.emoji === newEmoji
-            ? { ...r, count: r.count + 1, lastUpdated: now }
-            : r,
-        );
-      } else {
-        return [...prev, { emoji: newEmoji, count: 1, lastUpdated: now }];
-      }
-    });
-
-    setIsPickerVisible(false);
-  };
-
-  const sorted = [...reactions].sort((a, b) => {
-    if (b.count !== a.count) return b.count - a.count;
-    return a.lastUpdated - b.lastUpdated;
-  });
-
-  const displayReactions = sorted.slice(0, 3);
-  const dropdownReactions = sorted.slice(0, 8);
-
-  const shareMenuItems = [
-    { label: '카카오톡 공유', handler: () => alert('카카오 공유!') },
-    {
-      label: 'URL 공유',
-      handler: () => {
-        navigator.clipboard.writeText(window.location.href);
-        showToast('URL이 복사되었습니다.');
-      },
-    },
-  ];
-
-  return (
-    <SubHeaderWrapper>
-      <SubHeaderInner>
-        <NameText>To. {name}</NameText>
-
-        <RightGroup>
-          <ProfileList>
-            {recentMessages.slice(0, 3).map((msg) => (
-              <ProfileBadgeList
-                key={msg.id}
-                imageUrl={msg.profileImageURL}
-                alt={msg.sender}
-              />
-            ))}
-            {recentMessages.length > 3 && (
-              <div className="more-count">+{recentMessages.length - 3}</div>
-            )}
-          </ProfileList>
-
-          <WriterText>{recentMessages.length}명이 작성했어요!</WriterText>
-          <Divider />
-
-          <EmojiGroupWrapper>
-            <EmojiGroup>
-              {displayReactions.map((reaction) => (
-                <EmojiBadge
-                  key={reaction.emoji}
-                  emoji={reaction.emoji}
-                  count={reaction.count}
-                />
-              ))}
-
-              <EmojiDropdownButton
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
-              >
-                <img src={arrowIcon} alt="더보기" />
-              </EmojiDropdownButton>
-            </EmojiGroup>
-
-            {isDropdownOpen && (
-              <DropdownWrapper>
-                {dropdownReactions.map((reaction) => (
-                  <EmojiBadge
-                    key={reaction.emoji}
-                    emoji={reaction.emoji}
-                    count={reaction.count}
-                  />
-                ))}
-              </DropdownWrapper>
-            )}
-          </EmojiGroupWrapper>
-
-          <ButtonGroup>
-            <EmojiButton
-              variant="outlined"
-              size="small"
-              onClick={() => setIsPickerVisible((prev) => !prev)}
-            >
-              <img src={emojiIcon} alt="이모지 아이콘" />
-              <span>추가</span>
-            </EmojiButton>
-
-            {isPickerVisible && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '48px',
-                  right: '0',
-                  zIndex: 1000,
-                }}
-              >
-                <Picker
-                  onEmojiSelect={handleEmojiSelect}
-                  theme="light"
-                  previewPosition="none"
-                  searchPosition="top"
-                  skinTonePosition="none"
-                />
-              </div>
-            )}
-
-            <Divider />
-
-            <Menu
-              triggerText={
-                <ShareButton variant="outlined" size="small">
-                  <img src={shareIcon} alt="공유" />
-                </ShareButton>
-              }
-              items={shareMenuItems}
-            />
-          </ButtonGroup>
-        </RightGroup>
-      </SubHeaderInner>
-
-      {ToastComponent}
-    </SubHeaderWrapper>
-  );
-}

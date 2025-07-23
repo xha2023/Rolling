@@ -1,9 +1,11 @@
 import React, { forwardRef } from 'react';
+import styled from 'styled-components';
 import Button from '../button/Button.jsx';
 import Badge from '../badge/TextBadge';
+import binIcon from '../../assets/icon/ic_bin.svg';
 import defaultProfile from '../../assets/svg/default_profile.svg';
-import { formatDate } from '../../utils/FormateDate.js';
-import { Helmet } from 'react-helmet-async';
+import { formatDate } from '../../utils/FormatDate.js'; // 날짜 포맷 유틸리티
+
 import {
   CardContainer,
   Header,
@@ -11,12 +13,10 @@ import {
   HeaderInfo,
   FromText,
   NameText,
-  StatusBadge,
   MessageContent,
   MessageText,
   DateText,
 } from './MessageCard.styled.js';
-import styled from 'styled-components';
 
 const MessageCard = forwardRef(
   (
@@ -35,6 +35,7 @@ const MessageCard = forwardRef(
     ref,
   ) => {
     const formattedDate = formatDate(date);
+
     return (
       <CardContainer
         ref={ref}
@@ -56,15 +57,15 @@ const MessageCard = forwardRef(
             <Badge label={status} />
           </HeaderInfo>
           {isEditing && (
-            <Button
+            <DeleteCardButton
               onClick={(e) => {
-                e.stopPropagation(); // 카드 클릭 이벤트 방지
+                e.stopPropagation();
                 onDelete(messageId);
               }}
               variant="icon"
             >
-              🗑️
-            </Button>
+              <img src={binIcon} alt="삭제 아이콘" />
+            </DeleteCardButton>
           )}
         </Header>
 

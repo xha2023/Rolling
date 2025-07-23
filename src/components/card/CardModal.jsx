@@ -3,6 +3,59 @@ import Badge from '../badge/TextBadge';
 import styled from 'styled-components';
 import defaultProfile from '../../assets/svg/default_profile.svg';
 
+const CardModal = ({ card, onClose }) => {
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  if (!card) return null;
+
+  return (
+    <ModalOverlay onClick={handleOverlayClick}>
+      <ModalContent>
+        <CloseButton onClick={onClose}>×</CloseButton>
+
+        <Header>
+          <ProfileImage>
+            {card.profileImageURL ? (
+              <img src={card.profileImageURL} alt="Profile" />
+            ) : (
+              <img src={defaultProfile} alt="Profile" />
+            )}
+          </ProfileImage>
+          <HeaderInfo>
+            <FromText>
+              From. <NameText>{card.sender}</NameText>
+            </FromText>
+            <Badge label={card.relationship} />
+          </HeaderInfo>
+        </Header>
+
+        <MessageContent>
+          <MessageText dangerouslySetInnerHTML={{ __html: card.content }} />
+        </MessageContent>
+
+        <DateText>{new Date(card.createdAt).toLocaleDateString()}</DateText>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
+export default CardModal;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -116,56 +169,3 @@ const DateText = styled.div`
   color: #999999;
   font-weight: 400;
 `;
-
-const CardModal = ({ card, onClose }) => {
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
-
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
-  if (!card) return null;
-
-  return (
-    <ModalOverlay onClick={handleOverlayClick}>
-      <ModalContent>
-        <CloseButton onClick={onClose}>×</CloseButton>
-
-        <Header>
-          <ProfileImage>
-            {card.profileImageURL ? (
-              <img src={card.profileImageURL} alt="Profile" />
-            ) : (
-              <img src={defaultProfile} alt="Profile" />
-            )}
-          </ProfileImage>
-          <HeaderInfo>
-            <FromText>
-              From. <NameText>{card.sender}</NameText>
-            </FromText>
-            <Badge label={card.relationship} />
-          </HeaderInfo>
-        </Header>
-
-        <MessageContent>
-          <MessageText dangerouslySetInnerHTML={{ __html: card.content }} />
-        </MessageContent>
-
-        <DateText>{new Date(card.createdAt).toLocaleDateString()}</DateText>
-      </ModalContent>
-    </ModalOverlay>
-  );
-};
-
-export default CardModal;

@@ -6,6 +6,7 @@ import Button from '../components/button/Button';
 import CardModal from '../components/card/CardModal';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet-async';
+import { formatDate } from '../utils/FormatDate.js'; // 날짜 포맷 유틸리티
 
 //api
 import {
@@ -185,7 +186,17 @@ const PersonalPage = () => {
             isEditing={isEditing}
             onDeleteMessage={handleDeleteMessage}
             onClickAdd={handleClickAdd}
+            onCardClick={handleCardClick}
+            loading={loading}
+            hasMore={hasMore}
+            onLoadMore={handleLoadMore}
           />
+          {selectedCard && (
+            <CardModal 
+              card={selectedCard} 
+              onClose={handleCloseCard} 
+            />
+          )}
         </CardWrapper>
       </PageWrapper>
     </>
@@ -236,3 +247,5 @@ const DeleteButton = styled(Button)`
   top: -60px;
   right: 0;
 `;
+
+export { PageWrapper, CardWrapper, DeleteButton };
