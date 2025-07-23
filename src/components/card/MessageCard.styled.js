@@ -3,27 +3,23 @@ import styled from 'styled-components';
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* --- 가로세로 비율 유지 --- */
-  aspect-ratio: 48 / 35; /* 원하는 비율로 수정 */
+  aspect-ratio: 48 / 35;
   overflow: hidden;
-
-  /* 데스크탑 (기본): 3열 */
-  /* 33.33% 너비에서 gap(24px)의 2/3인 16px를 뺍니다. */
-  flex-basis: calc(33.333% - 16px);
+  width: 100%;
+  flex: 1 1 0;
 
   /* 태블릿: 2열 */
   @media (max-width: 1024px) {
-    /* 50% 너비에서 gap(24px)의 1/2인 12px를 뺍니다. */
     flex-basis: calc(50% - 12px);
+    max-width: 100%;
   }
 
   /* 모바일: 1열 */
   @media (max-width: 767px) {
-    flex-basis: 100%; /* 한 줄에 하나씩 꽉 채움 */
+    flex-basis: 100%;
+    max-width: 100%;
   }
   padding: 24px;
-  aspect-ratio: 48 / 35; /* 원하는 비율로 수정 (예: 1 / 1, 16 / 9) */
-  overflow: hidden;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);

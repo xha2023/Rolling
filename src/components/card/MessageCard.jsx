@@ -16,7 +16,7 @@ import {
   DateText,
 } from './MessageCard.styled.js';
 
-//삭제로직
+import binIcon from '../../assets/svg/bin.svg';
 
 const MessageCard = ({
   messageId,
@@ -46,9 +46,13 @@ const MessageCard = ({
           <StatusBadge $status={status}>{status}</StatusBadge>
         </HeaderInfo>
         {isEditing && (
-          <Button onClick={() => onDelete(messageId)} variant="icon">
-            🗑️
-          </Button>
+          <DeleteCardButton
+            onClick={() => onDelete(messageId)}
+            variant="outlined"
+            size="icon"
+          >
+            <img src={binIcon} alt="공유" />
+          </DeleteCardButton>
         )}
       </Header>
 
@@ -62,3 +66,8 @@ const MessageCard = ({
 };
 
 export default MessageCard;
+
+const DeleteCardButton = styled(Button)`
+  width: 40px;
+  height: 40px;
+`;
