@@ -52,6 +52,7 @@ export const TextAndImageContainer = styled.div`
 
 export const SelectorWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 32px;
   min-width: 320px;
   align-items: center;

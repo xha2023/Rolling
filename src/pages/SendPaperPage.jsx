@@ -133,24 +133,25 @@ export default function SendPaperPage() {
         onBlur={() => setEditorTouched(true)}
         isError={showEditorError}
       />
-
       <Label>폰트 선택</Label>
       <Select options={fontOptions} value={font} onChange={setFont} />
-      <Button
-        variant="primary"
-        size="large"
-        onClick={handleSubmit}
-        disabled={isEmpty}
-        style={{ width: '100%', marginTop: '46px' }}
-      >
-        생성하기
-      </Button>
+      <ButtonBox>
+        <Button
+          variant="primary"
+          size="large"
+          onClick={handleSubmit}
+          disabled={isEmpty}
+          style={{ width: '100%', marginTop: '46px' }}
+        >
+          생성하기
+        </Button>
+      </ButtonBox>
     </Container>
   );
 }
 
 const Container = styled.div`
-  max-width: 720px;
+  /* max-width: 720px; */
   display: flex;
   flex-direction: column;
   margin: 47px auto;
