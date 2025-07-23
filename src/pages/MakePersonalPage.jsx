@@ -44,13 +44,23 @@ const MakePersonalPage = () => {
       return;
     }
 
+    console.log('생성 시작 - selectedColor:', selectedColor);
+
     const payload = {
       team: '17-1',
       name: recipientName,
-      ...(selectedColor.backgroundType === 'color'
-        ? { backgroundColor: selectedColor.value }
-        : { backgroundImageURL: selectedColor.value }),
     };
+
+    // 배경 설정 - 이미지든 색상이든 항상 backgroundColor도 포함
+    if (selectedColor.backgroundType === 'color') {
+      payload.backgroundColor = selectedColor.value;
+    } else {
+      // 이미지 선택 시에도 기본 backgroundColor 포함
+      payload.backgroundImageURL = selectedColor.value;
+      payload.backgroundColor = 'beige'; // 기본값 설정
+    }
+
+    console.log('API 호출 payload:', payload);
 
     try {
       const result = await createRecipient(payload);
