@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components';
 
-export const StyledButton = styled.button`
+// ✅ 필터링: DOM에 전달하지 않을 prop 정의
+const shouldForwardProp = (prop) =>
+  !['$variant', '$size', '$isSelected', '$position'].includes(prop);
+
+// ✅ StyledButton 정의 (DOM에는 전달 안 되고, 스타일링에만 사용됨)
+export const StyledButton = styled.button.withConfig({ shouldForwardProp })`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -20,8 +25,8 @@ export const StyledButton = styled.button`
   ${({ $size, theme }) =>
     $size === 'large' &&
     css`
-      font-size: ${({ theme }) => theme.fontSizes.lg};
-      font-weight: ${({ theme }) => theme.fontWeights.bold};
+      font-size: ${theme.fontSizes.lg};
+      font-weight: ${theme.fontWeights.bold};
       height: 56px;
       min-width: 280px;
     `}
@@ -53,20 +58,20 @@ export const StyledButton = styled.button`
       min-width: 122px;
     `}
 
-    ${({ $size, theme }) =>
+  ${({ $size, theme }) =>
     $size === 'home_tablet' &&
     css`
-      font-size: ${({ theme }) => theme.fontSizes.lg};
-      font-weight: ${({ theme }) => theme.fontWeights.bold};
+      font-size: ${theme.fontSizes.lg};
+      font-weight: ${theme.fontWeights.bold};
       height: 56px;
       min-width: 720px;
     `}
 
-    ${({ $size, theme }) =>
+  ${({ $size, theme }) =>
     $size === 'home_mobile' &&
     css`
-      font-size: ${({ theme }) => theme.fontSizes.lg};
-      font-weight: ${({ theme }) => theme.fontWeights.bold};
+      font-size: ${theme.fontSizes.lg};
+      font-weight: ${theme.fontWeights.bold};
       height: 56px;
       min-width: 320px;
     `}
@@ -150,7 +155,7 @@ export const StyledButton = styled.button`
       css`
         color: ${theme.colors.primary[500]};
         border: 2px solid ${theme.colors.primary[500]};
-        font-weight: ${({ theme }) => theme.fontWeights.bold};
+        font-weight: ${theme.fontWeights.bold};
         font-size: 16px;
         background-color: ${theme.colors.white};
       `}
@@ -159,7 +164,7 @@ export const StyledButton = styled.button`
       css`
         background-color: ${theme.colors.gray[100]};
         border: none;
-        font-weight: ${({ theme }) => theme.fontWeights.regular};
+        font-weight: ${theme.fontWeights.regular};
         font-size: 16px;
 
         ${$position === 'left' &&
