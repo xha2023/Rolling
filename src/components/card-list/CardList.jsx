@@ -41,11 +41,14 @@ export default function CardList({
           sender,
           content,
           createdAt,
+          font,
+        }) => (
         } = message;
         
         const isLastMessage = index === messages.length - 1;
         
         return (
+
           <MessageCard
             ref={isLastMessage ? lastMessageRef : null}
             messageId={messageId}
@@ -55,6 +58,7 @@ export default function CardList({
             status={relationship}
             message={content}
             date={createdAt}
+            font={font}
             isEditing={isEditing}
             onDelete={onDeleteMessage}
             onClick={() => onCardClick && onCardClick(message)}

@@ -5,6 +5,7 @@ import Subheader from '../components/subheader/Subheader';
 import Button from '../components/button/Button';
 import CardModal from '../components/card/CardModal';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet-async';
 
 //api
 import {
@@ -22,60 +23,12 @@ const backgroundColorMap = {
   beige: ['secondary', 200], // 예시
 };
 
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  background: ${({ theme, $backgroundImageURL, $backgroundColor }) => {
-    // 1순위: 이미지 URL이 있으면 배경 이미지로 설정
-    if ($backgroundImageURL) {
-      return `url(${$backgroundImageURL}) no-repeat center / cover`;
-    }
-
-    // 2순위: 이미지 URL이 없고, $backgroundColor가 매핑 객체에 있으면 theme 색상 사용
-    const colorKeys = $backgroundColor
-      ? backgroundColorMap[$backgroundColor]
-      : null;
-    if (colorKeys) {
-      const [key, shade] = colorKeys;
-      // theme.colors.primary[200] 같은 경로로 실제 색상 값을 반환
-      return theme.colors[key]?.[shade];
-    }
-
-    // 3순위: 매핑에 없으면 $backgroundColor 값 자체를 사용하거나 최종 기본값 사용
-    return $backgroundColor || '#f6f8ff';
-  }};
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CardWrapper = styled.div`
-  width: fit-content;
-  position: relative;
-  margin: 113px auto;
-  max-width: 1200px;
-  padding: 0 24px;
-
-  /* PC에서 카드 목록 영역 반응형 */
-  @media (min-width: 1248px) {
-    padding: 0;
-    margin: 113px auto;
-  }
-
-  @media (max-width: 1247px) {
-    padding: 0 24px;
-    width: 100%;
-    max-width: none;
-  }
-`;
-
-const DeleteButton = styled(Button)`
-  position: absolute;
-  top: -60px;
-  right: 0;
-`;
+const fontMap = {
+  '나눔손글씨 손편지체': "'Nanum Pen Script', cursive",
+  나눔명조: "'Nanum Myeongjo', serif",
+  'Noto Sans': "'Noto Sans', sans-serif",
+  Pretendard: "'Pretendard', sans-serif",
+};
 
 // Main component
 const PersonalPage = () => {
@@ -199,35 +152,87 @@ const PersonalPage = () => {
   };
 
   return (
-    <PageWrapper
-      $backgroundImageURL={recipientInfo?.backgroundImageURL}
-      $backgroundColor={recipientInfo?.backgroundColor}
-    >
-      {recipientInfo && (
-        <Subheader data={recipientInfo} reactions={reactions} />
-      )}
-      <CardWrapper>
-        {isEditing && (
-          <DeleteButton onClick={handleDeletePaper}>삭제하기</DeleteButton>
-        )}
-        <CardList
-          messages={messages}
-          isEditing={isEditing}
-          onDeleteMessage={handleDeleteMessage}
-          onClickAdd={handleClickAdd}
-          onCardClick={handleCardClick}
-          loading={loading}
-          hasMore={hasMore}
-          onLoadMore={handleLoadMore}
+    <>
+      <Helmet>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
         />
-      </CardWrapper>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
 
-      {/* 카드 확대 모달 */}
-      {selectedCard && (
-        <CardModal card={selectedCard} onClose={handleCloseCard} />
-      )}
-    </PageWrapper>
+      <PageWrapper
+        $backgroundImageURL={recipientInfo?.backgroundImageURL}
+        $backgroundColor={recipientInfo?.backgroundColor}
+      >
+        {recipientInfo && (
+          <Subheader data={recipientInfo} reactions={reactions} />
+        )}
+        <CardWrapper>
+          {isEditing && (
+            <DeleteButton onClick={handleDeletePaper}>삭제하기</DeleteButton>
+          )}
+          <CardList
+            messages={messages.map((msg) => ({
+              ...msg,
+              font: fontMap[msg.font] || msg.font, // DB에서 받은 font명을 영문 폰트명으로 매핑
+            }))}
+            isEditing={isEditing}
+            onDeleteMessage={handleDeleteMessage}
+            onClickAdd={handleClickAdd}
+          />
+        </CardWrapper>
+      </PageWrapper>
+    </>
   );
 };
 
 export default PersonalPage;
+
+const PageWrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background: ${({ theme, $backgroundImageURL, $backgroundColor }) => {
+    // 1순위: 이미지 URL이 있으면 배경 이미지로 설정
+    if ($backgroundImageURL) {
+      return `url(${$backgroundImageURL}) no-repeat center / cover`;
+    }
+
+    // 2순위: 이미지 URL이 없고, $backgroundColor가 매핑 객체에 있으면 theme 색상 사용
+    const colorKeys = $backgroundColor
+      ? backgroundColorMap[$backgroundColor]
+      : null;
+    if (colorKeys) {
+      const [key, shade] = colorKeys;
+      // theme.colors.primary[200] 같은 경로로 실제 색상 값을 반환
+      return theme.colors[key]?.[shade];
+    }
+
+    // 3순위: 매핑에 없으면 $backgroundColor 값 자체를 사용하거나 최종 기본값 사용
+    return $backgroundColor || '#f6f8ff';
+  }};
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CardWrapper = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  margin: 113px;
+`;
+
+const DeleteButton = styled(Button)`
+  position: absolute;
+  top: -60px;
+  right: 0;
+`;

@@ -11,27 +11,31 @@ import PersonalPage from './pages/PersonalPage.jsx';
 import SendPaperPage from './pages/SendPaperPage.jsx';
 import GlobalStyle from './styles/GlobalStyle.js';
 import App from './App.jsx';
+import { HelmetProvider } from 'react-helmet-async';
 
 //Api test
 import './api/test-console.js';
 
 function Main() {
   return (
-    <ThemeProvider theme={Theme}>
-      <GlobalStyle />
-      <Router>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<HomePage />} />
-            <Route path="/list" element={<AllpapersPage />} />
-            <Route path="post" element={<MakePersonalPage />} />
-            <Route path="post/:id" element={<PersonalPage />} />
-            <Route path="/post/:id/message" element={<SendPaperPage />} />
-            <Route path="/post/:id/edit" element={<PersonalPage />} />
-          </Route>
-        </Routes>
-      </Router>
-    </ThemeProvider>
+
+    <HelmetProvider>
+      <ThemeProvider theme={Theme}>
+        <GlobalStyle />
+        <Router>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<HomePage />} />
+              <Route path="/list" element={<AllpapersPage />} />
+              <Route path="post" element={<MakePersonalPage />} />
+              <Route path="post/:id" element={<PersonalPage />} />
+              <Route path="/post/:id/message" element={<SendPaperPage />} />
+              <Route path="/post/:id/edit" element={<PersonalPage />} />  
+            </Route>
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
