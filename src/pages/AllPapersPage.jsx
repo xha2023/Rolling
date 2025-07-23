@@ -99,7 +99,9 @@ const ListHeader = styled.section`
 `;
 
 const ListTitle = styled.h1`
-  ${Theme.textStyles.font24Bold};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 1.5rem;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   margin-left: 20px;
   margin-bottom: 0;
 
@@ -130,10 +132,12 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  ${Theme.textStyles.font18Bold};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   width: 100%;
   padding: 1.4rem 2.4rem;
-  border-radius: 1.2rem;
+  border-radius: 0.75rem;
   color: var(--white, #fff);
   text-align: center;
   background: var(--purple-600, #9935ff);
