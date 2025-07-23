@@ -19,6 +19,7 @@ export default function CardList({
           sender,
           content,
           createdAt,
+          font,
         }) => (
           <MessageCard
             messageId={messageId}
@@ -28,6 +29,7 @@ export default function CardList({
             status={relationship}
             message={content}
             date={createdAt}
+            font={font}
             isEditing={isEditing}
             onDelete={onDeleteMessage}
           />

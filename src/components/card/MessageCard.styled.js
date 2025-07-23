@@ -129,6 +129,7 @@ export const MessageText = styled.p`
   overflow-x: hidden;
   font-weight: 400;
   color: #4a4a4a;
+  font-family: ${(props) => props.$font};
 
   /* --- 💡 변경점: clamp()로 폰트 및 줄 간격 조절 --- */
   font-size: clamp(14px, 2vw, 18px);

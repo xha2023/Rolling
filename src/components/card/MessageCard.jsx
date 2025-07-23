@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '../button/Button.jsx';
 import defaultProfile from '../../assets/svg/default_profile.svg';
 import { formatDate } from '../../utils/FormateDate.js';
+import { Helmet } from 'react-helmet-async';
 import {
   CardContainer,
   Header,
@@ -25,6 +26,7 @@ const MessageCard = ({
   status = '동료',
   message = '코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요!',
   date = '2025.07.12',
+  font,
   isEditing,
   onDelete,
 }) => {
@@ -57,7 +59,10 @@ const MessageCard = ({
       </Header>
 
       <MessageContent>
-        <MessageText dangerouslySetInnerHTML={{ __html: message }} />
+        <MessageText
+          $font={font}
+          dangerouslySetInnerHTML={{ __html: message }}
+        />
       </MessageContent>
 
       <DateText>{formattedDate}</DateText>

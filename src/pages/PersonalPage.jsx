@@ -4,6 +4,7 @@ import CardList from '../components/card-list/CardList';
 import Subheader from '../components/subheader/ReSubheader';
 import Button from '../components/button/Button';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet-async';
 
 //api
 import {
@@ -22,6 +23,13 @@ const backgroundColorMap = {
   blue: ['blue', 200],
   green: ['green', 200],
   beige: ['secondary', 200], // 예시
+};
+
+const fontMap = {
+  '나눔손글씨 손편지체': "'Nanum Pen Script', cursive",
+  나눔명조: "'Nanum Myeongjo', serif",
+  'Noto Sans': "'Noto Sans', sans-serif",
+  Pretendard: "'Pretendard', sans-serif",
 };
 
 // Main component
@@ -103,25 +111,43 @@ const PersonalPage = () => {
   };
 
   return (
-    <PageWrapper
-      $backgroundImageURL={recipientInfo?.backgroundImageURL}
-      $backgroundColor={recipientInfo?.backgroundColor}
-    >
-      {recipientInfo && (
-        <Subheader data={recipientInfo} reactions={reactions} />
-      )}
-      <CardWrapper>
-        {isEditing && (
-          <DeleteButton onClick={handleDeletePaper}>삭제하기</DeleteButton>
-        )}
-        <CardList
-          messages={messages}
-          isEditing={isEditing}
-          onDeleteMessage={handleDeleteMessage}
-          onClickAdd={handleClickAdd}
+    <>
+      <Helmet>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
         />
-      </CardWrapper>
-    </PageWrapper>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
+
+      <PageWrapper
+        $backgroundImageURL={recipientInfo?.backgroundImageURL}
+        $backgroundColor={recipientInfo?.backgroundColor}
+      >
+        {recipientInfo && (
+          <Subheader data={recipientInfo} reactions={reactions} />
+        )}
+        <CardWrapper>
+          {isEditing && (
+            <DeleteButton onClick={handleDeletePaper}>삭제하기</DeleteButton>
+          )}
+          <CardList
+            messages={messages.map((msg) => ({
+              ...msg,
+              font: fontMap[msg.font] || msg.font, // DB에서 받은 font명을 영문 폰트명으로 매핑
+            }))}
+            isEditing={isEditing}
+            onDeleteMessage={handleDeleteMessage}
+            onClickAdd={handleClickAdd}
+          />
+        </CardWrapper>
+      </PageWrapper>
+    </>
   );
 };
 
@@ -129,7 +155,8 @@ export default PersonalPage;
 
 const PageWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   background: ${({ theme, $backgroundImageURL, $backgroundColor }) => {
     // 1순위: 이미지 URL이 있으면 배경 이미지로 설정
     if ($backgroundImageURL) {
