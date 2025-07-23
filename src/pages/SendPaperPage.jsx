@@ -1,5 +1,5 @@
 //library
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import Editor from '../components/editor/Editor';
 
 //api
 import { createMessage } from '../api/messages';
-// import { getProfileImages } from '../api/images'; // ✅ 프로필 이미지 목록
+import { getProfileImages } from '../api/images'; // ✅ 프로필 이미지 목록
 
 //data
 const relationOptions = [
@@ -29,22 +29,21 @@ const fontOptions = [
   { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
 ];
 
-const profileImageData = {
-  imageUrls: [
-    'https://learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com/sprint-proj-image/default_avatar.png',
-    'https://picsum.photos/id/522/100/100',
-    'https://picsum.photos/id/547/100/100',
-    'https://picsum.photos/id/268/100/100',
-    'https://picsum.photos/id/1082/100/100',
-    'https://picsum.photos/id/571/100/100',
-    'https://picsum.photos/id/494/100/100',
-    'https://picsum.photos/id/859/100/100',
-    'https://picsum.photos/id/437/100/100',
-    'https://picsum.photos/id/1064/100/100',
-  ],
-};
+//   imageUrls: [
+//     'https://learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com/sprint-proj-image/default_avatar.png',
+//     'https://picsum.photos/id/522/100/100',
+//     'https://picsum.photos/id/547/100/100',
+//     'https://picsum.photos/id/268/100/100',
+//     'https://picsum.photos/id/1082/100/100',
+//     'https://picsum.photos/id/571/100/100',
+//     'https://picsum.photos/id/494/100/100',
+//     'https://picsum.photos/id/859/100/100',
+//     'https://picsum.photos/id/437/100/100',
+//     'https://picsum.photos/id/1064/100/100',
+//   ],
+// };
 
-const profileImages = profileImageData.imageUrls;
+// const profileImages = profileImageData.imageUrls;
 
 export default function SendPaperPage() {
   const [name, setName] = useState('');
@@ -52,9 +51,25 @@ export default function SendPaperPage() {
   const [font, setFont] = useState(fontOptions[0]);
   const [editorContent, setEditorContent] = useState('<p></p>');
   const [editorTouched, setEditorTouched] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(profileImages[0]);
+  const [profileImages, setProfileImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(profileImages[0] || null);
 
   const { id: recipientId } = useParams();
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const profileImageData = await getProfileImages();
+        const loadedImages = profileImageData.imageUrls || [];
+        setProfileImages(loadedImages);
+        setSelectedImage(loadedImages[0] || null); // 첫 번째 이미지로 초기 선택
+      } catch (error) {
+        console.error('프로필 이미지 불러오기 실패:', error);
+      }
+    };
+
+    loadImages();
+  }, []);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -94,7 +109,7 @@ export default function SendPaperPage() {
       <Label className="firstLabel">From.</Label>
       <InputText
         placeholder="이름을 입력해 주세요."
-        errormsg="내용을 입력해 주세요."
+        errormsg="값을 입력해 주세요."
         inputvalue={name}
         style={{ width: '100%' }}
         onInputChange={(e) => setName(e.target.value)}
@@ -138,7 +153,11 @@ const Container = styled.div`
   max-width: 720px;
   display: flex;
   flex-direction: column;
-  margin: 55px auto;
+  margin: 47px auto;
+
+  @media (max-width: 767px) {
+    padding: 49px 24px;
+  }
 `;
 
 const Label = styled.label`

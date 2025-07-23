@@ -15,14 +15,25 @@ export const CircleImageButton = styled.button`
     height: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 380px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
-export const SelectedImage = styled.img`
+export const SelectedImageContainer = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  object-fit: cover;
   overflow: hidden;
+  object-fit: cover;
+  flex-shrink: 0;
+`;
+
+export const SelectedImage = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 export const ImageContainer = styled.div`
@@ -43,4 +54,5 @@ export const SelectorWrapper = styled.div`
   display: flex;
   gap: 32px;
   min-width: 320px;
+  align-items: center;
 `;
