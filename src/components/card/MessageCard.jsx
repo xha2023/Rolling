@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import Button from '../button/Button.jsx';
 import defaultProfile from '../../assets/svg/default_profile.svg';
@@ -18,7 +18,7 @@ import {
 
 //삭제로직
 
-const MessageCard = ({
+const MessageCard = forwardRef(({
   messageId,
   profileImage,
   name = '김동훈',
@@ -27,10 +27,15 @@ const MessageCard = ({
   date = '2025.07.12',
   isEditing,
   onDelete,
-}) => {
+  onClick,
+}, ref) => {
   const formattedDate = formatDate(date);
   return (
-    <CardContainer>
+    <CardContainer 
+      ref={ref} 
+      onClick={onClick} 
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       <Header>
         <ProfileImage>
           {profileImage ? (
@@ -46,7 +51,13 @@ const MessageCard = ({
           <StatusBadge $status={status}>{status}</StatusBadge>
         </HeaderInfo>
         {isEditing && (
-          <Button onClick={() => onDelete(messageId)} variant="icon">
+          <Button 
+            onClick={(e) => {
+              e.stopPropagation(); // 카드 클릭 이벤트 방지
+              onDelete(messageId);
+            }} 
+            variant="icon"
+          >
             🗑️
           </Button>
         )}
@@ -59,6 +70,6 @@ const MessageCard = ({
       <DateText>{formattedDate}</DateText>
     </CardContainer>
   );
-};
+});
 
 export default MessageCard;
