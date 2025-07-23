@@ -26,8 +26,6 @@ const CardModal = ({ card, onClose }) => {
   return (
     <ModalOverlay onClick={handleOverlayClick}>
       <ModalContent>
-        <CloseButton onClick={onClose}>×</CloseButton>
-
         <Header>
           <ProfileImage>
             {card.profileImageURL ? (
@@ -42,13 +40,15 @@ const CardModal = ({ card, onClose }) => {
             </FromText>
             <Badge label={card.relationship} />
           </HeaderInfo>
+          <DateText>{new Date(card.createdAt).toLocaleDateString()}</DateText>
         </Header>
 
         <MessageContent>
           <MessageText dangerouslySetInnerHTML={{ __html: card.content }} />
         </MessageContent>
-
-        <DateText>{new Date(card.createdAt).toLocaleDateString()}</DateText>
+        <ButtonBox>
+          <CloseButton onClick={onClose}>닫기</CloseButton>
+        </ButtonBox>
       </ModalContent>
     </ModalOverlay>
   );
@@ -86,10 +86,20 @@ const ModalContent = styled.div`
   }
 `;
 
+const ButtonBox = styled.div`
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const CloseButton = styled.button`
   position: absolute;
-  top: 16px;
-  right: 16px;
+  bottom: 16px;
+  /* margin: 0 auto; */
   background: none;
   border: none;
   font-size: 24px;
