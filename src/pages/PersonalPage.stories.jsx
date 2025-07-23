@@ -5,6 +5,9 @@ import PersonalPage, { mockData } from './PersonalPage';
 import Theme from '../styles/theme';
 import GlobalStyle from '../styles/GlobalStyle';
 
+// eslint-disable-next-line no-undef
+/* global jest */
+
 export default {
   title: 'Pages/PersonalPage',
   component: PersonalPage,
@@ -28,10 +31,11 @@ export default {
 // Mock API 함수들
 const mockAPI = {
   getRecipient: () => Promise.resolve(mockData),
-  getMessageList: () => Promise.resolve({
-    results: mockData.recentMessages,
-    next: null,
-  }),
+  getMessageList: () =>
+    Promise.resolve({
+      results: mockData.recentMessages,
+      next: null,
+    }),
   deleteRecipient: () => Promise.resolve(),
   deleteMessage: () => Promise.resolve(),
 };

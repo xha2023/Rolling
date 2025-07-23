@@ -23,6 +23,16 @@ export const SelectedImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   overflow: hidden;
+
+  @media (min-width: 320px) {
+    width: 13%;
+    height: 13%;
+  }
+
+  @media (min-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -41,6 +51,7 @@ export const TextAndImageContainer = styled.div`
 
 export const SelectorWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 32px;
   min-width: 320px;
 `;

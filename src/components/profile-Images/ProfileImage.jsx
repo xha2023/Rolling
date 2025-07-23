@@ -3,7 +3,7 @@ import avatar from '../../assets/icon/avatar.svg';
 
 function ProfileImage({ profileImage, size, order, position, handleSelect }) {
   const imageSource = profileImage || avatar;
-  console.log(size);
+
   return (
     <ProfileImageContainer
       $size={size}

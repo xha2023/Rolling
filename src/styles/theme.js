@@ -90,7 +90,7 @@ const Theme = {
     },
     font24Bold: {
       fontFamily: 'body',
-      fontSize: '2xl', // 24px
+      fontSize: '24px', // 24px
       fontWeight: 'bold', // Bold (700)
       lineHeight: 'normal',
       letterSpacing: '-0.01em',

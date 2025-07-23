@@ -8,6 +8,93 @@ import bluePattern from '../../assets/img/card_pattern_blue.png';
 import greenPattern from '../../assets/img/card_pattern_green.png';
 import theme from '../../styles/theme';
 
+const defaultColor = theme.colors.secondary[200];
+
+const colorChips = {
+  beige: {
+    id: 'yellowChip',
+    backgroundType: 'color',
+    color: theme.colors.secondary[200],
+    pattern: yellowPattern,
+  },
+  purple: {
+    id: 'purpleChip',
+    backgroundType: 'color',
+    color: theme.colors.primary[200],
+    pattern: purplePattern,
+  },
+  blue: {
+    id: 'blueChip',
+    backgroundType: 'color',
+    color: theme.colors.blue[200],
+    pattern: bluePattern,
+  },
+  green: {
+    id: 'greenChip',
+    backgroundType: 'color',
+    color: theme.colors.green[200],
+    pattern: greenPattern,
+  },
+};
+
+function Emoji({ reaction }) {
+  return (
+    <EmojiCont id={reaction.id}>
+      <EmojiElement>{reaction.emoji}</EmojiElement>
+      <EmojiCount>{reaction.count}</EmojiCount>
+    </EmojiCont>
+  );
+}
+
+function CardFrom({ card }) {
+  const {
+    name,
+    backgroundColor,
+    backgroundImageURL,
+    messageCount,
+    topReactions,
+    recentMessages,
+  } = card;
+
+  const profileImages =
+    recentMessages === 0
+      ? []
+      : recentMessages.map((message) => message.profileImageURL).slice(0, 3);
+
+  const reactions = [...topReactions].slice(0, 3);
+  const colorPalette = colorChips[backgroundColor];
+
+  return (
+    <Link to={`/post/${card.id}`}>
+      <CardWrapper
+        $backgroundColor={colorPalette.color}
+        $bgImageURL={backgroundImageURL}
+      >
+        <CardInfo>
+          <Recipient $bgImage={backgroundImageURL}>To. {name}</Recipient>
+          <ProfileImageGroup
+            profileImages={profileImages}
+            messageCount={messageCount}
+          />
+          <WriterCounter $bgImage={backgroundImageURL}>
+            <span>{messageCount}</span>
+            명이 작성했어요!
+          </WriterCounter>
+        </CardInfo>
+        <BottomContainer>
+          <EmojiContainer>
+            {reactions.length !== 0 &&
+              reactions.map((el) => <Emoji reaction={el} key={el.emoji} />)}
+          </EmojiContainer>
+        </BottomContainer>
+        <PatternImg src={colorPalette.pattern} $bgImage={backgroundImageURL} />
+      </CardWrapper>
+    </Link>
+  );
+}
+
+export default CardFrom;
+
 const CardWrapper = styled.div`
   position: relative;
   width: 275px; //20.8rem;
@@ -23,6 +110,7 @@ const CardWrapper = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: 0 0.2rem 1.2rem 0 rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
   cursor: pointer;
 
   @media (min-width: 768px) {
@@ -164,90 +252,3 @@ const EmojiCount = styled.span`
   line-height: 20px;
   padding-left: 2px;
 `;
-
-const defaultColor = theme.colors.secondary[200];
-
-const colorChips = {
-  beige: {
-    id: 'yellowChip',
-    backgroundType: 'color',
-    color: theme.colors.secondary[200],
-    pattern: yellowPattern,
-  },
-  purple: {
-    id: 'purpleChip',
-    backgroundType: 'color',
-    color: theme.colors.primary[200],
-    pattern: purplePattern,
-  },
-  blue: {
-    id: 'blueChip',
-    backgroundType: 'color',
-    color: theme.colors.blue[200],
-    pattern: bluePattern,
-  },
-  green: {
-    id: 'greenChip',
-    backgroundType: 'color',
-    color: theme.colors.green[200],
-    pattern: greenPattern,
-  },
-};
-
-function Emoji({ reaction }) {
-  return (
-    <EmojiCont id={reaction.id}>
-      <EmojiElement>{reaction.emoji}</EmojiElement>
-      <EmojiCount>{reaction.count}</EmojiCount>
-    </EmojiCont>
-  );
-}
-
-function CardFrom({ card }) {
-  const {
-    name,
-    backgroundColor,
-    backgroundImageURL,
-    messageCount,
-    topReactions,
-    recentMessages,
-  } = card;
-
-  const profileImages =
-    recentMessages === 0
-      ? []
-      : recentMessages.map((message) => message.profileImageURL).slice(0, 3);
-
-  const reactions = [...topReactions].slice(0, 3);
-  const colorPalette = colorChips[backgroundColor];
-
-  return (
-    <Link to={`/post/${card.id}`}>
-      <CardWrapper
-        $backgroundColor={colorPalette.color}
-        $bgImageURL={backgroundImageURL}
-      >
-        <CardInfo>
-          <Recipient $bgImage={backgroundImageURL}>To. {name}</Recipient>
-          <ProfileImageGroup
-            profileImages={profileImages}
-            messageCount={messageCount}
-          />
-          <WriterCounter $bgImage={backgroundImageURL}>
-            <span>{messageCount}</span>
-            명이 작성했어요!
-          </WriterCounter>
-        </CardInfo>
-        <BottomContainer>
-          <EmojiContainer>
-            {reactions.length !== 0 &&
-              reactions.map((el) => <Emoji reaction={el} key={el.emoji} />)}
-          </EmojiContainer>
-        </BottomContainer>
-        <PatternImg src={colorPalette.pattern} $bgImage={backgroundImageURL} />
-      </CardWrapper>
-    </Link>
-  );
-}
-
-export default CardFrom;

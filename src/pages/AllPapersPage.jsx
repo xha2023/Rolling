@@ -83,12 +83,12 @@ const ListContainer = styled.div`
   height: 100%;
   margin-inline: auto;
   /* padding-inline: 38px; */
-  padding-top: 80px;
-  padding-bottom: 218px;
+  padding-top: 50px;
+  /* padding-bottom: 50px; */
 
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 16px;
 `;
 
 const ListHeader = styled.section`
@@ -99,33 +99,33 @@ const ListHeader = styled.section`
 `;
 
 const ListTitle = styled.h1`
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 1.5rem;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  margin-left: 26px;
+  ${Theme.textStyles.font24Bold};
+  margin-left: 20px;
+  margin-bottom: 0;
 
-  @media (max-width: 360px) {
-    font-size: 1.25rem;
-    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  @media (min-width: 768px) {
+    margin-left: 24px;
+    margin-bottom: 0;
   }
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 4.2rem;
-  padding: 2.4rem 2rem;
+  width: 100%;
+  margin-top: 40px;
+  padding: 24px;
 
   @media (min-width: 768px) {
-    margin-top: 13.2rem;
-    padding: 2.4rem;
+    margin-top: 40px;
+    padding: 24px;
   }
 
   @media (min-width: 1248px) {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 4rem;
+    margin-top: 40px;
     position: relative;
-    left: -1.4rem;
+    /* left: -1.4rem; */
   }
 `;
 
@@ -137,9 +137,11 @@ const Button = styled.button`
   color: var(--white, #fff);
   text-align: center;
   background: var(--purple-600, #9935ff);
+  border: 1px solid #9935ff;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   gap: 1rem;
 
   @media (min-width: 1248px) {
