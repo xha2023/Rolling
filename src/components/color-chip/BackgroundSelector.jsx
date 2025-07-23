@@ -111,12 +111,15 @@ export default function BackgroundSelector({ selectedColor, onChangeColor }) {
           chipData={imageChipData}
           selectedId={selectedColor?.value}
           onSelect={(id) => {
+            console.log('이미지 선택됨:', id);
             const selected = imageChipData.find((chip) => chip.id === id);
             if (selected) {
-              onChangeColor({
+              const newColor = {
                 backgroundType: 'image',
-                value: selected.imageSrc,
-              });
+                value: selected.id, // imageSrc가 아닌 id 사용
+              };
+              console.log('새로운 selectedColor 설정:', newColor);
+              onChangeColor(newColor);
             }
           }}
         />

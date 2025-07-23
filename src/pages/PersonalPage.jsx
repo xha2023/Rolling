@@ -187,9 +187,15 @@ const PersonalPage = () => {
             onDeleteMessage={handleDeleteMessage}
             onClickAdd={handleClickAdd}
             onCardClick={handleCardClick}
+            loading={loading}
+            hasMore={hasMore}
+            onLoadMore={handleLoadMore}
           />
           {selectedCard && (
-            <CardModal card={selectedCard} onClose={handleCloseCard} />
+            <CardModal 
+              card={selectedCard} 
+              onClose={handleCloseCard} 
+            />
           )}
         </CardWrapper>
       </PageWrapper>
