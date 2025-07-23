@@ -75,7 +75,7 @@ export const BannerTextBox = styled.div`
   padding-bottom: 50px;
 
   @media (max-width: 1200px) {
-    width: 640px;
+    width: 100%;
     padding: 0;
   }
 
@@ -119,7 +119,7 @@ export const BannerSubText = styled.span`
 
 export const BannerImg = styled.img`
   width: 100%;
-  height: 100%;
+  height: auto;
 `;
 
 const HomePage = () => {
