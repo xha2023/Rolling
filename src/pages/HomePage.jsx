@@ -16,7 +16,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 30px;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1248px) {
     padding: 50px 24px;
   }
 
@@ -26,7 +26,8 @@ export const Container = styled.div`
 `;
 
 export const BannerBoxBase = css`
-  width: 1200px;
+  max-width: 1200px;
+  width: 100%;
   height: auto;
   margin: 0 auto;
   background-color: #f6f8ff;
@@ -73,6 +74,7 @@ export const BannerTextBox = styled.div`
   flex-direction: column;
   letter-spacing: -1%;
   padding-bottom: 50px;
+  flex-shrink: 0;
 
   @media (max-width: 1200px) {
     width: 100%;
@@ -103,11 +105,12 @@ export const Point = styled.span`
   margin-bottom: 7px;
 `;
 
-export const BannerText = styled.span`
+export const BannerText = styled.div`
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
   margin: 8px 0;
+  white-space: pre-wrap;
 `;
 
 export const BannerSubText = styled.span`
@@ -120,6 +123,18 @@ export const BannerSubText = styled.span`
 export const BannerImg = styled.img`
   width: 100%;
   height: auto;
+  max-width: 720px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+  /* max-width: ${(props) =>
+    props.id === 'image-bottom' ? '470px' : '720px'}; */
 `;
 
 const HomePage = () => {
@@ -157,7 +172,7 @@ const HomePage = () => {
           <BannerImg src={bannerImgTop} />
         </BannerBox>
         <BannerBoxReverse>
-          <BannerImg src={bannerImgBottom} />
+          <BannerImg id="image-bottom" src={bannerImgBottom} />
           <BannerTextBox className="bottomTextBox">
             <Point>Point. 02</Point>
             {isDesktop ? (
