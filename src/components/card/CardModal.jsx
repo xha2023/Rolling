@@ -87,27 +87,34 @@ const ModalContent = styled.div`
 `;
 
 const ButtonBox = styled.div`
-  position: absolute;
+  /* position: absolute;
   bottom: 16px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
   display: flex;
   justify-content: center;
   width: 100%;
+  padding: 20px;
 `;
 
 const CloseButton = styled.button`
+  width: 120px;
+  height: 40px;
   position: absolute;
   bottom: 16px;
+  padding: 7px 16px;
+  border-radius: 6px;
+  background-color: #9935ff;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
   /* margin: 0 auto; */
-  background: none;
   border: none;
-  font-size: 24px;
   cursor: pointer;
-  color: #666;
+  color: #fff;
 
   &:hover {
-    color: #333;
+    background-color: #6e0ad1;
   }
 `;
 

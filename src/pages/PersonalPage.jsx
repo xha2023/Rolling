@@ -167,6 +167,19 @@ const PersonalPage = () => {
     navigate(`/post/${recipientId}/message`);
   };
 
+  useEffect(() => {
+    if (selectedCard) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // 컴포넌트 언마운트 시에도 복구
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedCard]);
+
   return (
     <>
       <Helmet>
@@ -210,10 +223,7 @@ const PersonalPage = () => {
             onLoadMore={handleLoadMore}
           />
           {selectedCard && (
-            <CardModal 
-              card={selectedCard} 
-              onClose={handleCloseCard} 
-            />
+            <CardModal card={selectedCard} onClose={handleCloseCard} />
           )}
         </CardWrapper>
       </PageWrapper>

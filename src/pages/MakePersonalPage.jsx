@@ -8,8 +8,19 @@ import { useNavigate } from 'react-router-dom';
 import { createRecipient } from '../api/recipients';
 
 const PageWrapper = styled.div`
-  max-width: 720px;
-  margin: 57px auto 0;
+  display: flex;
+  flex-direction: column;
+  margin: 57px auto;
+  /* max-width: 720px; */
+  /* margin: 57px auto 0; */
+  @media (min-width: 320px) {
+    margin: 57px 24px;
+  }
+
+  @media (min-width: 768px) {
+    width: 720px;
+    margin: 57px auto;
+  }
 `;
 
 const Title = styled.h2`
@@ -20,7 +31,7 @@ const Title = styled.h2`
 
 const Label = styled.label`
   display: block;
-  margin: 55px auto 15px;
+  margin: 55px 0 15px;
   font-size: 24px;
   font-weight: 700;
 `;
@@ -28,6 +39,16 @@ const Label = styled.label`
 const LabelInfo = styled.h4`
   font-weight: 400;
   margin-bottom: 30px;
+`;
+
+const ButtonBox = styled.div`
+  @media (min-width: 320px) {
+    margin-top: 336px;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const MakePersonalPage = () => {
@@ -89,16 +110,17 @@ const MakePersonalPage = () => {
         selectedColor={selectedColor}
         onChangeColor={setSelectedColor}
       />
-
-      <Button
-        variant="primary"
-        size="large"
-        onClick={handleCreate}
-        disabled={!recipientName.trim()}
-        style={{ width: '100%', marginTop: '20px' }}
-      >
-        생성하기
-      </Button>
+      <ButtonBox>
+        <Button
+          variant="primary"
+          size="large"
+          onClick={handleCreate}
+          disabled={!recipientName.trim()}
+          style={{ width: '100%', marginTop: '20px' }}
+        >
+          생성하기
+        </Button>
+      </ButtonBox>
     </PageWrapper>
   );
 };
