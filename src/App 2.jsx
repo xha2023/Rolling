@@ -9,39 +9,48 @@ function App() {
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
+    // 카카오 SDK 초기화
   useEffect(() => {
-    // 카카오 SDK 초기화 - 더 안정적인 방식
     const initKakao = () => {
-      console.log('카카오 SDK 초기화 시도...');
-      console.log('window.Kakao:', window.Kakao);
+      console.log('=== 카카오 초기화 시작 ===');
+      console.log('window.Kakao 존재:', !!window.Kakao);
       
       if (window.Kakao) {
-        if (!window.Kakao.isInitialized()) {
-          const kakaoApiKey = import.meta.env.VITE_KAKAO_API_KEY;
-          console.log('API 키:', kakaoApiKey);
-          
-          if (kakaoApiKey) {
+        const kakaoApiKey = import.meta.env.VITE_KAKAO_API_KEY;
+        console.log('카카오 API 키:', kakaoApiKey);
+        
+        if (kakaoApiKey) {
+          if (!window.Kakao.isInitialized()) {
             window.Kakao.init(kakaoApiKey);
-            console.log('✅ 카카오 SDK 초기화 완료!');
-            console.log('초기화 상태:', window.Kakao.isInitialized());
+            console.log('✅ 카카오 SDK 초기화 완료');
           } else {
-            console.error('❌ 카카오 API 키가 없습니다.');
+            console.log('✅ 카카오 SDK 이미 초기화됨');
           }
+          console.log('카카오 초기화 상태:', window.Kakao.isInitialized());
         } else {
-          console.log('✅ 카카오 SDK 이미 초기화됨');
+          console.error('❌ 카카오 API 키가 없습니다');
         }
       } else {
-        console.error('❌ window.Kakao 객체가 없습니다.');
+        console.error('❌ window.Kakao 객체가 없습니다');
+        // 재시도
+        setTimeout(initKakao, 500);
       }
     };
 
-    // DOM 로드 완료 후 초기화
-    if (document.readyState === 'complete') {
-      initKakao();
+    // DOM이 로드된 후 카카오 초기화
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initKakao);
     } else {
-      window.addEventListener('load', initKakao);
+      // 이미 로드된 경우 바로 실행
+      setTimeout(initKakao, 100);
     }
 
+    return () => {
+      document.removeEventListener('DOMContentLoaded', initKakao);
+    };
+  }, []);
+
+  useEffect(() => {
     const checkScreenSize = () => {
       const width = window.innerWidth;
       setIsMobile(width <= 767);
