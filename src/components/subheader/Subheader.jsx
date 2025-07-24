@@ -104,7 +104,7 @@ export default function Subheader({ data, totalWriters }) {
         objectType: 'feed',
         content: {
           title: `${name}님의 롤링 페이퍼`,
-          description: `${recentMessages.length}명이 따뜻한 메시지를 남겼어요! 💌`,
+          description: `${totalWriters || 0}명이 따뜻한 메시지를 남겼어요! 💌`,
           imageUrl: 'https://picsum.photos/800/400',
           link: {
             mobileWebUrl: window.location.href,

@@ -11,11 +11,22 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rolling</title>
-    <!-- 카카오 SDK를 동기적으로 로드 -->
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1H40aLBN" crossorigin="anonymous"></script>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // 카카오 SDK 동적 로드
+      const script = document.createElement('script');
+      script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
+      script.onload = function() {
+        console.log('카카오 스크립트 로드 완료!');
+        window.kakaoSDKLoaded = true;
+      };
+      script.onerror = function() {
+        console.error('카카오 스크립트 로드 실패!');
+      };
+      document.head.appendChild(script);
+    </script>
     <script type="module" src="/src/index.jsx"></script>
   </body>
 </html>
